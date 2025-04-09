@@ -251,9 +251,9 @@ GameObject:
   - component: {fileID: 409626928}
   - component: {fileID: 409626927}
   - component: {fileID: 409626926}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -933,8 +933,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 756192407}
   m_InteractionLayers:
-    m_Bits: 2
-  m_Handedness: 0
+    m_Bits: 4294967295
+  m_Handedness: 2
   m_AttachTransform: {fileID: 0}
   m_KeepSelectedTargetValid: 1
   m_DisableVisualsWhenBlockedInGroup: 1
@@ -1626,8 +1626,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 756192407}
   m_InteractionLayers:
-    m_Bits: 2
-  m_Handedness: 0
+    m_Bits: 4294967295
+  m_Handedness: 1
   m_AttachTransform: {fileID: 0}
   m_KeepSelectedTargetValid: 1
   m_DisableVisualsWhenBlockedInGroup: 1

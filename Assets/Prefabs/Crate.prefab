@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 8071556664188053106}
   - component: {fileID: 4986967841773099043}
   - component: {fileID: 1455263586650191943}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -119,9 +119,9 @@ GameObject:
   - component: {fileID: 8920610657842210539}
   - component: {fileID: 7448257576167571962}
   - component: {fileID: 1311408026109034042}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Crate
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -164,8 +164,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0

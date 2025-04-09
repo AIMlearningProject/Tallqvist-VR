@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 6325188168400479619}
   - component: {fileID: 2014022821522504406}
   - component: {fileID: 3847510799122472509}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,9 +120,9 @@ GameObject:
   - component: {fileID: 3853250403719167800}
   - component: {fileID: 4757280103382284287}
   - component: {fileID: 9030577821116844099}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Cube (3)
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -228,9 +228,9 @@ GameObject:
   - component: {fileID: 8428171455839175727}
   - component: {fileID: 854606868051902508}
   - component: {fileID: 7739604045408971105}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Cube (4)
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -336,9 +336,9 @@ GameObject:
   - component: {fileID: 6599808727513163628}
   - component: {fileID: 2906915547188221470}
   - component: {fileID: 295881194927190793}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Cube (2)
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -444,9 +444,9 @@ GameObject:
   - component: {fileID: 6727263983326024196}
   - component: {fileID: 1653821784390771096}
   - component: {fileID: 3556904124074111017}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -551,9 +551,9 @@ GameObject:
   - component: {fileID: 9023592162079554282}
   - component: {fileID: 3111341955135985061}
   - component: {fileID: 8974530631876427936}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Shelter
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -600,8 +600,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0

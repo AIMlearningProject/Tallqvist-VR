@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 3583475276762011406}
   - component: {fileID: -6965588295619274866}
   - component: {fileID: -6653239938316136534}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Toilet
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56,8 +56,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -195,9 +195,9 @@ GameObject:
   - component: {fileID: 2880928417364866282}
   - component: {fileID: 3021373553677033107}
   - component: {fileID: 5134348433852995988}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
