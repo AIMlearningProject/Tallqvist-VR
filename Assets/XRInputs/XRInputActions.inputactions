@@ -1,0 +1,151 @@
+{
+    "name": "XRInputActions",
+    "maps": [
+        {
+            "name": "XRActions",
+            "id": "cdb2e768-1595-4579-90af-d209db046bb5",
+            "actions": [
+                {
+                    "name": "RightJoystick",
+                    "type": "Value",
+                    "id": "1c9a5da4-5e7a-4052-a613-54b6d0697440",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "AButton",
+                    "type": "Button",
+                    "id": "c423bf11-f0d4-4cc0-a1c7-f4de4030a2c2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BButton",
+                    "type": "Button",
+                    "id": "bff5ea23-cc15-40bd-94b1-43cbdaa7ac56",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "2D Vector",
+                    "id": "8d11ef79-8d9c-4f10-8f8f-ab4eb4e9ce56",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightJoystick",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "3e73266f-d02f-44c4-84eb-0fe0d3409802",
+                    "path": "<Joystick>/stick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightJoystick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "666a56da-bfdf-40ee-89dc-d934a0830663",
+                    "path": "<Joystick>/stick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightJoystick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "f397e27b-de3c-4ee8-87f7-f3a5064d4d4b",
+                    "path": "<Joystick>/stick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightJoystick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "4b61fe91-08c8-483b-aa89-416155c3d9c5",
+                    "path": "<Joystick>/stick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightJoystick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "26f9749b-113b-4a35-8782-7b9a019f6883",
+                    "path": "*/<XRController>{RightHand}/thumbstick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";XRPrefabManager",
+                    "action": "RightJoystick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "66bcd154-0871-412f-8873-6cb28e6e8811",
+                    "path": "*/<XRController>{RightHand}/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";XRPrefabManager",
+                    "action": "AButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b45585c2-41b9-4d49-a6bb-332ba13bdbfe",
+                    "path": "*/<XRController>{RightHand}/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";XRPrefabManager",
+                    "action": "BButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "XRPrefabManager",
+            "bindingGroup": "XRPrefabManager",
+            "devices": [
+                {
+                    "devicePath": "<XRController>{RightHand}/{PrimaryButton}",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<XRController>{RightHand}/{SecondaryButton}",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<XRController>{RightHand}/{Primary2DAxis}",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
