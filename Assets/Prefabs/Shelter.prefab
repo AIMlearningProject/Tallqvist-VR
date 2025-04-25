@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8121285185794577283}
   - component: {fileID: 3775751211481067825}
   - component: {fileID: 917117681025264180}
+  - component: {fileID: 8160686821225637905}
   m_Layer: 5
   m_Name: ShelterCanvas
   m_TagString: Untagged
@@ -188,6 +189,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8160686821225637905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 895929355589339435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9db024ca816252d46b21d73242d50e85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1551242959750208137
 GameObject:
   m_ObjectHideFlags: 0
