@@ -12,26 +12,26 @@ public class PrefabHUD : MonoBehaviour
 
     public GameObject PrefabLabel;
 
-    private InputDevice leftController;
+    private InputDevice rightController;
     private bool stickInUse = false;
 
     void Start()
     {
         UpdateLabel();
-        leftController = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
+        rightController = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
     }
 
     //Ohjaimen lukeminen, tattiohjauksen pit‰‰ palautua "0" asentoon ennen seuraavaa tapahtumaa.
     void Update()
     {
-        if (!leftController.isValid)
+        if (!rightController.isValid)
         {
-            leftController = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
+            rightController = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
             return;
         }
 
         Vector2 primary2DAxis;
-        if (leftController.TryGetFeatureValue(CommonUsages.primary2DAxis, out primary2DAxis))
+        if (rightController.TryGetFeatureValue(CommonUsages.primary2DAxis, out primary2DAxis))
         {
             if (!stickInUse)
             {
