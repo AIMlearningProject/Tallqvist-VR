@@ -1478,6 +1478,7 @@ GameObject:
   - component: {fileID: 979807783}
   - component: {fileID: 979807782}
   - component: {fileID: 979807781}
+  - component: {fileID: 979807784}
   m_Layer: 5
   m_Name: ImportPcBtn
   m_TagString: Untagged
@@ -1587,6 +1588,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 979807779}
   m_CullTransparentMesh: 1
+--- !u!65 &979807784
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 979807779}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 300, y: 70, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1034564033
 GameObject:
   m_ObjectHideFlags: 0
@@ -1682,6 +1704,7 @@ GameObject:
   - component: {fileID: 1178530598}
   - component: {fileID: 1178530597}
   - component: {fileID: 1178530596}
+  - component: {fileID: 1178530599}
   m_Layer: 5
   m_Name: QuitBtn
   m_TagString: Untagged
@@ -1803,6 +1826,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1178530594}
   m_CullTransparentMesh: 1
+--- !u!65 &1178530599
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1178530594}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 300, y: 70, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1221454198
 GameObject:
   m_ObjectHideFlags: 0
@@ -1891,6 +1935,7 @@ GameObject:
   - component: {fileID: 1413279669}
   - component: {fileID: 1413279668}
   - component: {fileID: 1413279667}
+  - component: {fileID: 1413279670}
   m_Layer: 5
   m_Name: LoadMenuBtn
   m_TagString: Untagged
@@ -2012,6 +2057,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1413279665}
   m_CullTransparentMesh: 1
+--- !u!65 &1413279670
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413279665}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 300, y: 70, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1467353775
 GameObject:
   m_ObjectHideFlags: 0
@@ -3793,6 +3859,7 @@ GameObject:
   - component: {fileID: 2110802464}
   - component: {fileID: 2110802463}
   - component: {fileID: 2110802462}
+  - component: {fileID: 2110802465}
   m_Layer: 5
   m_Name: SaceBtn
   m_TagString: Untagged
@@ -3902,6 +3969,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2110802460}
   m_CullTransparentMesh: 1
+--- !u!65 &2110802465
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110802460}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 300, y: 70, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
