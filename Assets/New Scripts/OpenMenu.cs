@@ -1,0 +1,53 @@
+using UnityEngine;
+using UnityEngine.XR;
+
+//Asettaa MenuPanelin aktiiviseksi Y nappia painamalla
+
+public class OpenMenu : MonoBehaviour
+{
+    public GameObject menuPanel;
+    public GameObject loadPanel;
+
+    private InputDevice leftController;
+
+    private float cooldownTime = 0.2f;
+    private float lastInputTime = 0f;
+
+    void Start()
+    {
+        leftController = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
+    }
+
+    void Update()
+    {
+        InputDevice leftController = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
+        bool secondaryButtonPressed;
+        if (leftController.TryGetFeatureValue(CommonUsages.secondaryButton, out secondaryButtonPressed) && secondaryButtonPressed)
+        {
+            if (Time.time - lastInputTime >= cooldownTime)
+            {
+                ToggleMenu();
+                lastInputTime = Time.time;
+            }
+        }
+    }
+
+    private void ToggleMenu()
+    {
+        if (menuPanel != null)
+        {
+            menuPanel.SetActive(!menuPanel.activeSelf);
+        }
+    }
+
+    // Funktio "Lataa scene napille", lis‰t‰‰n nappin on click eventtiin kutsuttavaksi.
+    public void OpenLoadMenu()
+    {
+        loadPanel.SetActive(true);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+}
