@@ -38,6 +38,10 @@ public class OpenMenu : MonoBehaviour
         {
             menuPanel.SetActive(!menuPanel.activeSelf);
         }
+        if (loadPanel != null && loadPanel.activeSelf)
+        {
+            loadPanel.SetActive(false);
+        }
     }
 
     // Funktio "Lataa scene napille", lis‰t‰‰n nappin on click eventtiin kutsuttavaksi.
@@ -48,6 +52,7 @@ public class OpenMenu : MonoBehaviour
 
     public void QuitGame()
     {
-        Application.Quit();
+        //Application.Quit();
+        UnityEditor.EditorApplication.ExitPlaymode();
     }
 }
