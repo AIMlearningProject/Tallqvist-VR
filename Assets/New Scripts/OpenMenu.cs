@@ -7,6 +7,7 @@ public class OpenMenu : MonoBehaviour
 {
     public GameObject menuPanel;
     public GameObject loadPanel;
+    public GameObject importPanel;
 
     private InputDevice leftController;
 
@@ -42,12 +43,23 @@ public class OpenMenu : MonoBehaviour
         {
             loadPanel.SetActive(false);
         }
+        if (importPanel != null && importPanel.activeSelf)
+        {
+            importPanel.SetActive(false);
+        }
     }
 
     // Funktio "Lataa scene napille", lis‰t‰‰n nappin on click eventtiin kutsuttavaksi.
     public void OpenLoadMenu()
     {
         loadPanel.SetActive(true);
+        importPanel.SetActive(false);
+    }
+
+    public void OpenImportMenu()
+    {
+        importPanel.SetActive(true);
+        loadPanel.SetActive(false);
     }
 
     public void QuitGame()
