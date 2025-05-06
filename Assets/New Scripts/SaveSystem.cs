@@ -2,7 +2,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-//Scenen ja "pelaaja" datan tallentaminen ohjelman suorittamisen aikana json muodossa
+//Halutun datan tallentaminen ohjelman suorittamisen aikana json muodossa
 public class SaveSystem : MonoBehaviour
 {
     private string saveDirectory; // Tallennuskansio
@@ -96,16 +96,15 @@ public class SaveSystem : MonoBehaviour
     public class SaveData
     {
         public string sceneName;
-        public float playerX;
-        public float playerY;
-        public float playerZ;
+        public float playerX, playerY, playerZ;
+        public int heightmapResolution;
+        public float[] terrainHeights;
     }
 }
 
+
 //Vaihtoehtoinen tallentaminen ja lataaminen scenen nimen avulla (nimeääkö käyttäjä scenejä?)
-
 /*using UnityEngine.SceneManagement;
-
 public SaveData CreateSaveData()
 {
     SaveData data = new SaveData();
@@ -113,6 +112,5 @@ public SaveData CreateSaveData()
     data.playerX = transform.position.x;
     data.playerY = transform.position.y;
     data.playerZ = transform.position.z;
-
     return data;
 }*/
