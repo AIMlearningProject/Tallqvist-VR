@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using TMPro;
 using System.IO;
 
+//Aseta heighmap.png terrainin heightmapiksi
+
 public class ImportHeightMap : MonoBehaviour
 {
     public GameObject itemPrefab; // ImportBtn
@@ -20,6 +22,7 @@ public class ImportHeightMap : MonoBehaviour
         PopulateHeightmapList();
     }
 
+    // Täyttä menun heightmap listan , ja asettaa nappeihin oikeat funktiot
     public void PopulateHeightmapList()
     {
         // Listan putsaus
@@ -72,7 +75,7 @@ public class ImportHeightMap : MonoBehaviour
             for (int x = 0; x < width; x++)
             {
                 Color pixel = heightmap.GetPixel(x, y);
-                heights[y, x] = pixel.grayscale;
+                heights[y, x] = pixel.grayscale; // tai .r
             }
         }
 
