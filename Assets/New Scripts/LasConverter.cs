@@ -1,7 +1,9 @@
 using System.Diagnostics;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
+using TMPro;
 
 // Ajaa las2heightmap.exe ohjelman streaming assets kansiosta. Tehty c++ scriptistä joka muutta las. tiedostoja png "heightmap" muotoon.
 // "Lasfiles" kansiossa oleva las tidosto muutetaan heightmapiksi "generated_heightmpa.png" ja sijoitetaan "Heightmaps" kansioon.
@@ -9,10 +11,14 @@ using System;
 
 public class LasConverter : MonoBehaviour
 {
+    public GameObject buttonPrefab; // ScrollBtn
+    public Transform contentParent; // ScrollView --> ViewPort --> Content
+    public string lasDirectoryName = "Lasfiles";
+
     public string batRelativePath = "las2heightmap/run_las2heightmap.bat";
 
     private string batFullPath;
-    private string inputLasPath;
+    private string lasFilePath;
     private string outputPngPath;
     private string basePath;
 
@@ -21,8 +27,8 @@ public class LasConverter : MonoBehaviour
         basePath = Application.persistentDataPath;
 
         batFullPath = Path.Combine(Application.streamingAssetsPath, batRelativePath);
-        inputLasPath = Path.Combine(basePath, "Lasfiles", "input.las");
-        outputPngPath = Path.Combine(basePath, "Heightmaps", "generated_heightmap.png");
+        lasFilePath = Path.Combine(basePath, "Lasfiles", "input.las");
+        //outputPngPath = Path.Combine(basePath, "Heightmaps", "generated_heightmap.png");
 
         string lasFolder = Path.Combine(basePath, "Lasfiles");
         Directory.CreateDirectory(lasFolder);
@@ -33,15 +39,24 @@ public class LasConverter : MonoBehaviour
             UnityEngine.Debug.LogWarning("No LAS files found in: " + lasFolder);
             return;
         }
-        inputLasPath = lasFiles[0];
+        lasFilePath = lasFiles[0];
+
+        PopulateLasList();
     }
 
-    void RunLasToHeightmap()
+    void RunLasToHeightmap(string lasFilePath)
     {
+        if (string.IsNullOrEmpty(basePath))
+            basePath = Application.persistentDataPath;
+
+        string lasFileNameWithoutExt = Path.GetFileNameWithoutExtension(lasFilePath);
+        string outputFileName = $"heightmap_{lasFileNameWithoutExt}.png";
+        string outputPngPath = Path.Combine(basePath, "Heightmaps", outputFileName);
+
         ProcessStartInfo startInfo = new ProcessStartInfo
         {
             FileName = batFullPath,
-            Arguments = $"--input \"{inputLasPath}\" --output \"{outputPngPath}\"",
+            Arguments = $"--input \"{lasFilePath}\" --output \"{outputPngPath}\"",
             UseShellExecute = false,
             CreateNoWindow = true,
             RedirectStandardOutput = true,
@@ -75,7 +90,6 @@ public class LasConverter : MonoBehaviour
 
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
-
             process.WaitForExit();
 
             UnityEngine.Debug.Log($"Heightmap generated at {outputPngPath}");
@@ -86,9 +100,39 @@ public class LasConverter : MonoBehaviour
         }
     }
 
-    // Menun nappia varten
-    public void ConvertLas()
+    // Täytä lista .ls tiedostoilla (+ poisto mahdollisuus)
+    public void PopulateLasList()
     {
-        RunLasToHeightmap();
+        // Tyhjennä lista
+        foreach (Transform child in contentParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // Hae kaikki tallennukset aikaleimalla
+        string lasFolder = Path.Combine(Application.persistentDataPath, lasDirectoryName);
+
+        if (!Directory.Exists(lasFolder))
+        {
+            UnityEngine.Debug.LogWarning("LAS folder not found: " + lasFolder);
+            return;
+        }
+
+        string[] lasFiles = Directory.GetFiles(lasFolder, "*.las");
+
+        foreach (string fullPath in lasFiles)
+        {
+            string fileName = Path.GetFileName(fullPath);
+
+            //Muunto nappi
+            GameObject buttonGO = Instantiate(buttonPrefab, contentParent);
+            buttonGO.GetComponentInChildren<TMP_Text>().text = fileName;
+
+            string selectedPath = fullPath;
+            buttonGO.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                RunLasToHeightmap(selectedPath);
+            });
+        }
     }
 }

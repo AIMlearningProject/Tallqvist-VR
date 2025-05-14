@@ -1,13 +1,16 @@
 using UnityEngine;
 using UnityEngine.XR;
 
-//Asettaa MenuPanelin aktiiviseksi Y nappia painamalla
+// Asettaa MenuPanelin aktiiviseksi Y nappia painamalla
+// Y nappi myös sulkee kaikki menut
+// Ala menun avaaminen sulkee toiset alamenut
 
 public class OpenMenu : MonoBehaviour
 {
     public GameObject menuPanel;
     public GameObject loadPanel;
     public GameObject importPanel;
+    public GameObject convertPanel;
 
     private InputDevice leftController;
 
@@ -47,6 +50,10 @@ public class OpenMenu : MonoBehaviour
         {
             importPanel.SetActive(false);
         }
+        if (convertPanel != null && convertPanel.activeSelf)
+        {
+            convertPanel.SetActive(false);
+        }
     }
 
     // Funktio "Lataa scene napille", lisätään nappin on click eventtiin kutsuttavaksi.
@@ -54,11 +61,20 @@ public class OpenMenu : MonoBehaviour
     {
         loadPanel.SetActive(true);
         importPanel.SetActive(false);
+        convertPanel.SetActive(false);
     }
 
     public void OpenImportMenu()
     {
         importPanel.SetActive(true);
+        loadPanel.SetActive(false);
+        convertPanel.SetActive(false);
+    }
+
+    public void OpenConvertMenu()
+    {
+        convertPanel.SetActive(true);
+        importPanel.SetActive(false);
         loadPanel.SetActive(false);
     }
 
