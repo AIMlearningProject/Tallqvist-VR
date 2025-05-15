@@ -2,7 +2,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-//Halutun datan tallentaminen ohjelman suorittamisen aikana json muodossa
+////Terrainin, "pelaaja" datan ja prefab datan tallentaminen ohjelman suorittamisen aikana json muodossa
 public class SaveSystem : MonoBehaviour
 {
     private string saveDirectory; // Tallennuskansio
@@ -17,45 +17,43 @@ public class SaveSystem : MonoBehaviour
         }
     }
 
-    // Tallenna scene aikaleimalla --> uniikki tiedostonimi
-    public void SaveWithTimestamp(SaveData data)
+    // Tallenna nimellä
+    public void SaveWithName(SaveData data, string saveName)
     {
-        string timestamp = System.DateTime.Now.ToString("yyyyMMdd_HHmmss");
-        string filePath = Path.Combine(saveDirectory, "save_" + timestamp + ".json");
-
+        if (string.IsNullOrEmpty(saveName))
+        {
+            Debug.LogError("Save name cannot be empty.");
+            return;
+        }
+        string filePath = Path.Combine(saveDirectory, "save_" + saveName + ".json");
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(filePath, json);
         Debug.Log("Game saved to " + filePath);
     }
 
-    //Lataa aikaleimalla tallennettu scene
-    public SaveData LoadWithTimestamp(string timestamp)
+    // Lataa nimellä
+    public SaveData LoadWithName(string saveName)
     {
-        if (string.IsNullOrWhiteSpace(timestamp))
+        if (string.IsNullOrEmpty(saveName))
         {
-            Debug.LogError("LoadWithTimestamp called with empty timestamp.");
+            Debug.LogError("LoadWithName called with empty name.");
             return null;
         }
 
-        string filePath = Path.Combine(saveDirectory, "save_" + timestamp + ".json");
-        Debug.Log("Trying to load: " + filePath);
+        string filePath = Path.Combine(saveDirectory, "save_" + saveName + ".json");
 
-        if (!File.Exists(filePath))
+        if (File.Exists(filePath))
         {
-            Debug.LogWarning("File does not exist: " + filePath);
+            string json = File.ReadAllText(filePath);
+            SaveData loadedData = JsonUtility.FromJson<SaveData>(json);
+            Debug.Log("Game loaded from " + filePath);
+            return loadedData;
+        }
+        else
+        {
+            Debug.LogWarning("Save file not found: " + filePath);
             return null;
         }
-
-        string json = File.ReadAllText(filePath);
-        Debug.Log("Loaded JSON: " + json);
-
-        if (string.IsNullOrWhiteSpace(json))
-        {
-            Debug.LogError("Loaded file is empty.");
-            return null;
-        }
-
-        return JsonUtility.FromJson<SaveData>(json);
     }
 
     //Haetaan kaikki tallennukset --> voidaan esittää sekä hallita
@@ -80,9 +78,9 @@ public class SaveSystem : MonoBehaviour
         return files.Length > 0 ? files[0] : null;
     }
 
-    public void DeleteSave(string timestamp)
+    public void DeleteSave(string saveName)
     {
-        string filePath = Path.Combine(saveDirectory, "save_" + timestamp + ".json");
+        string filePath = Path.Combine(saveDirectory, "save_" + saveName + ".json");
 
         if (File.Exists(filePath))
         {
@@ -95,22 +93,8 @@ public class SaveSystem : MonoBehaviour
     [System.Serializable]
     public class SaveData
     {
-        public string sceneName;
         public float playerX, playerY, playerZ;
         public int heightmapResolution;
         public float[] terrainHeights;
     }
 }
-
-
-//Vaihtoehtoinen tallentaminen ja lataaminen scenen nimen avulla (nimeääkö käyttäjä scenejä?)
-/*using UnityEngine.SceneManagement;
-public SaveData CreateSaveData()
-{
-    SaveData data = new SaveData();
-    data.sceneName = SceneManager.GetActiveScene().name;
-    data.playerX = transform.position.x;
-    data.playerY = transform.position.y;
-    data.playerZ = transform.position.z;
-    return data;
-}*/

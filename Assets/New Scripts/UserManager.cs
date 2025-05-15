@@ -1,10 +1,15 @@
 using UnityEngine;
+using TMPro;
 
 public class UserManager : MonoBehaviour
 {
     private SaveSystem saveSystem;
     private SaveSystem.SaveData saveData;
     public SaveList saveList;
+    public TMP_InputField saveNameInput;
+    public GameObject inputPanel;
+
+    public string saveName;
 
     //Haettavat funktiot löytyvät täältä, käyttää SaveSystemiä tallentamiseen. Tallennus data "SaveData" on nestattuna SaveSystemissä
     void Start()
@@ -16,18 +21,18 @@ public class UserManager : MonoBehaviour
             Debug.LogError("SaveSystem not found in scene. Please add it to a GameObject.");
             return;
         }
-
-        //Sovelluksen avattaessa aukeaa viimeisin tallennus
-        LoadLatest();
+      
+        saveNameInput.onEndEdit.AddListener(OnSaveNameEntered); //Tekstin syöttökentän syötön lopettamiseen kuuntelija tallentamista varten
+        
+        LoadLatest(); //Sovelluksen avattaessa aukeaa viimeisin tallennus
     }
 
-    public void SavePlayer()
+    public void SavePlayer(string saveName)
     {
         if (saveSystem == null) return;
 
         saveData = new SaveSystem.SaveData();
 
-        saveData.sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         saveData.playerX = transform.position.x;
         saveData.playerY = transform.position.y;
         saveData.playerZ = transform.position.z;
@@ -42,9 +47,31 @@ public class UserManager : MonoBehaviour
         saveData.terrainHeights = Flatten(heights);
 
         saveSystem = GetComponent<SaveSystem>();
-        saveSystem.SaveWithTimestamp(saveData);
+        saveSystem.SaveWithName(saveData, saveName);
 
         saveList.PopulateSaveList();
+        inputPanel.SetActive(false);
+    }
+
+    //Tallennuksen nimeäminen, avaa syöttökentän
+    public void OnClickSave()
+    {
+        inputPanel.SetActive(true);
+        saveNameInput.text = "";
+        saveNameInput.ActivateInputField();
+    }
+
+    //Luetaan savename syötön jälkeen ja suoritetaan tallennus
+    void OnSaveNameEntered(string input)
+    {
+        if (string.IsNullOrWhiteSpace(input))
+        {
+            Debug.LogWarning("Save name is empty!");
+            return;
+        }
+        saveName = input;
+        SavePlayer(saveName);
+        inputPanel.SetActive(false);
     }
 
     public void LoadLatest()
@@ -53,11 +80,11 @@ public class UserManager : MonoBehaviour
         LoadPlayer(latest);
     }
 
-    public void LoadPlayer(string timestamp)
+    public void LoadPlayer(string saveName)
     {
         if (saveSystem == null) return;
-            Debug.Log("Trying to load save with timestamp: " + timestamp);
-        SaveSystem.SaveData data = saveSystem.LoadWithTimestamp(timestamp);
+            Debug.Log("Trying to load save with saveName: " + saveName);
+        SaveSystem.SaveData data = saveSystem.LoadWithName(saveName);
         if (data != null)
         {
             transform.position = new Vector3(data.playerX, data.playerY, data.playerZ);

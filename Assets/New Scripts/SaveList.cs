@@ -2,10 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+// Täyttää Lataa listan tallennetuilla tiedostoilla
+
 public class SaveList : MonoBehaviour
 {
     public GameObject buttonPrefab; // ScrollBtn
-    public Transform contentParent; // ScrollViewer --> Content
+    public Transform contentParent; // ScrollView --> ViewPort --> Content
     public UserManager userController;
 
     public SaveSystem saveSystem;
