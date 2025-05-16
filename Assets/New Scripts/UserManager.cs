@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class UserManager : MonoBehaviour
 {
@@ -7,24 +8,49 @@ public class UserManager : MonoBehaviour
     private SaveSystem.SaveData saveData;
     public SaveList saveList;
     public TMP_InputField saveNameInput;
-    public GameObject inputPanel;
+    public GameObject spatialKeyboard;
 
-    public string saveName;
+    private string saveName;
+    private bool wasKeyboardOpen = false;
 
     //Haettavat funktiot löytyvät täältä, käyttää SaveSystemiä tallentamiseen. Tallennus data "SaveData" on nestattuna SaveSystemissä
     void Start()
     {
         saveSystem = GetComponent<SaveSystem>();
-
         if (saveSystem == null)
         {
             Debug.LogError("SaveSystem not found in scene. Please add it to a GameObject.");
             return;
         }
-      
-        saveNameInput.onEndEdit.AddListener(OnSaveNameEntered); //Tekstin syöttökentän syötön lopettamiseen kuuntelija tallentamista varten
-        
+
+        saveNameInput.onSelect.AddListener(OnInputSelected);
+        saveNameInput.onDeselect.AddListener(OnInputDeselected);
+
         LoadLatest(); //Sovelluksen avattaessa aukeaa viimeisin tallennus
+    }
+
+    void Update()
+    {
+        if (wasKeyboardOpen && !spatialKeyboard.activeSelf)
+        {
+            Debug.Log("Keyboard was just closed. Triggering save.");
+            OnSaveNameEntered(saveNameInput.text);
+            wasKeyboardOpen = false;
+        }
+        if (spatialKeyboard.activeSelf)
+        {
+            wasKeyboardOpen = true;
+        }
+    }
+
+    void OnInputSelected(string _)
+    {
+        Debug.Log("Input field focused — keyboard shown");
+    }
+    void OnInputDeselected(string _)
+    {
+        Debug.Log("Input field unfocused — keyboard closed");
+        OnSaveNameEntered(saveNameInput.text);
     }
 
     public void SavePlayer(string saveName)
@@ -50,15 +76,20 @@ public class UserManager : MonoBehaviour
         saveSystem.SaveWithName(saveData, saveName);
 
         saveList.PopulateSaveList();
-        inputPanel.SetActive(false);
+        spatialKeyboard.SetActive(false);
     }
 
     //Tallennuksen nimeäminen, avaa syöttökentän
     public void OnClickSave()
     {
-        inputPanel.SetActive(true);
         saveNameInput.text = "";
+        saveNameInput.ForceLabelUpdate();
         saveNameInput.ActivateInputField();
+        saveNameInput.caretPosition = 0;
+        saveNameInput.selectionAnchorPosition = 0;
+        saveNameInput.selectionFocusPosition = 0;
+        EventSystem.current.SetSelectedGameObject(saveNameInput.gameObject);
+        spatialKeyboard.SetActive(true);
     }
 
     //Luetaan savename syötön jälkeen ja suoritetaan tallennus
@@ -71,7 +102,10 @@ public class UserManager : MonoBehaviour
         }
         saveName = input;
         SavePlayer(saveName);
-        inputPanel.SetActive(false);
+        spatialKeyboard.SetActive(false);
+        saveNameInput.text = "";
+        saveNameInput.DeactivateInputField();
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void LoadLatest()
