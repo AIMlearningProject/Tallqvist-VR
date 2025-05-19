@@ -11,6 +11,7 @@ public class OpenMenu : MonoBehaviour
     public GameObject loadPanel;
     public GameObject importPanel;
     public GameObject convertPanel;
+    public GameObject instructionsPanel;
 
     private InputDevice leftController;
 
@@ -62,6 +63,7 @@ public class OpenMenu : MonoBehaviour
         loadPanel.SetActive(true);
         importPanel.SetActive(false);
         convertPanel.SetActive(false);
+        instructionsPanel.SetActive(false);
     }
 
     public void OpenImportMenu()
@@ -69,6 +71,7 @@ public class OpenMenu : MonoBehaviour
         importPanel.SetActive(true);
         loadPanel.SetActive(false);
         convertPanel.SetActive(false);
+        instructionsPanel.SetActive(false);
     }
 
     public void OpenConvertMenu()
@@ -76,6 +79,7 @@ public class OpenMenu : MonoBehaviour
         convertPanel.SetActive(true);
         importPanel.SetActive(false);
         loadPanel.SetActive(false);
+        instructionsPanel.SetActive(false);
     }
 
     public void QuitGame()
