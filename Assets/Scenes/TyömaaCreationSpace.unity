@@ -1621,6 +1621,10 @@ PrefabInstance:
       propertyPath: m_InteractionManager
       value: 
       objectReference: {fileID: 756192407}
+    - target: {fileID: 153982007679157697, guid: ad5efcbf66ccec84ca65a1fd4623a00d, type: 3}
+      propertyPath: m_MoveSpeed
+      value: 4.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1717954561962503725, guid: ad5efcbf66ccec84ca65a1fd4623a00d, type: 3}
       propertyPath: m_Name
       value: XR Origin (XR Rig)
@@ -4508,6 +4512,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1069838222}
   m_CullTransparentMesh: 1
+--- !u!1 &1082671339 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1717954561962503725, guid: ad5efcbf66ccec84ca65a1fd4623a00d, type: 3}
+  m_PrefabInstance: {fileID: 441087506}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1124647739
 GameObject:
   m_ObjectHideFlags: 0
@@ -7166,7 +7175,7 @@ MonoBehaviour:
     m_ManualQueueValue: 0
     m_ManualQueueTargetFrame: 0
   m_SelectActionTrigger: 1
-  m_AllowHoveredActivate: 1
+  m_AllowHoveredActivate: 0
   m_TargetPriorityMode: 0
   m_HideControllerOnSelect: 0
   m_InputCompatibilityMode: 0
@@ -7226,7 +7235,7 @@ MonoBehaviour:
   m_RaycastTriggerInteraction: 1
   m_RaycastSnapVolumeInteraction: 1
   m_HitClosestOnly: 0
-  m_HoverToSelect: 1
+  m_HoverToSelect: 0
   m_HoverTimeToSelect: 0.5
   m_AutoDeselect: 1
   m_TimeToAutoDeselect: 0.5
@@ -9346,7 +9355,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   m_Handedness: 1
   m_AttachTransform: {fileID: 0}
-  m_KeepSelectedTargetValid: 1
+  m_KeepSelectedTargetValid: 0
   m_DisableVisualsWhenBlockedInGroup: 1
   m_StartingSelectedInteractable: {fileID: 0}
   m_StartingTargetFilter: {fileID: 0}
@@ -10204,6 +10213,7 @@ MonoBehaviour:
   itemPrefab: {fileID: 186129904711871718, guid: f5717c44e1e63a44a9b09c937b618577, type: 3}
   contentParent: {fileID: 836810731}
   targetTerrain: {fileID: 409626927}
+  player: {fileID: 1082671339}
 --- !u!4 &2084779628
 Transform:
   m_ObjectHideFlags: 0

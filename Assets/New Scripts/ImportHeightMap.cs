@@ -10,6 +10,7 @@ public class ImportHeightMap : MonoBehaviour
     public GameObject itemPrefab; // ImportBtn
     public Transform contentParent; // Scroll --> Content
     public Terrain targetTerrain; // Terrain
+    public GameObject player; // XR Origin (XR Rig)
 
     private string heightmapFolder;
 
@@ -82,6 +83,7 @@ public class ImportHeightMap : MonoBehaviour
         terrain.terrainData.heightmapResolution = width;
         terrain.terrainData.size = new Vector3(width, 100, height);
         terrain.terrainData.SetHeights(0, 0, heights);
+        RaisePlayerAboveTerrain();
     }
 
     //Tee tasainen height map
@@ -95,5 +97,16 @@ public class ImportHeightMap : MonoBehaviour
 
         terrain.terrainData.SetHeights(0, 0, flatHeights);
     }
-}
 
+    // Nosta k‰ytt‰j‰ terrainin yl‰puolelle. Est‰‰ k‰ytt‰j‰‰ tippumasta terrainin l‰pi.
+    void RaisePlayerAboveTerrain()
+    {
+        Vector3 playerPosition = player.transform.position;
+        Vector3 terrainPosition = targetTerrain.transform.position;
+
+        float terrainHeight = targetTerrain.SampleHeight(playerPosition) + terrainPosition.y;
+        float safeY = terrainHeight + 1.0f;
+
+        player.transform.position = new Vector3(playerPosition.x, safeY, playerPosition.z);
+    }
+}
