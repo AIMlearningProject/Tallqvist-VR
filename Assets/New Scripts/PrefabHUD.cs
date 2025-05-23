@@ -47,14 +47,14 @@ public class PrefabHUD : MonoBehaviour
                 }
             }
 
-            if (stickInUse && Mathf.Abs(primary2DAxis.x) < 0.2f)
+            if (stickInUse && Mathf.Abs(primary2DAxis.x) < 0.1f)
             {
                 stickInUse = false;
             }
         }
     }
 
-        public void NextPrefab()
+    public void NextPrefab()
     {
         currentIndex = (currentIndex + 1) % prefabs.Count;
         UpdateLabel();

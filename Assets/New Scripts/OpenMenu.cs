@@ -15,7 +15,7 @@ public class OpenMenu : MonoBehaviour
 
     private InputDevice leftController;
 
-    private float cooldownTime = 0.2f;
+    private float cooldownTime = 0.3f;
     private float lastInputTime = 0f;
 
     void Start()

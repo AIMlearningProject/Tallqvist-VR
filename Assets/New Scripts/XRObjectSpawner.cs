@@ -1,14 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 public class XRObjectSpawner : MonoBehaviour
 {
     public XRRayInteractor xrRayInteractor;  // Reference to your existing XR Ray Interactor
-    public InputActionReference joystickInput; // RightJoystick
-    public InputActionReference aButton;       // AButton
-    public InputActionReference bButton;       // BButton
+    public InputActionProperty joystickInput; // RightJoystick
+    public InputActionProperty aButton;       // AButton
+    public InputActionProperty bButton;       // BButton
 
     public PrefabManager prefabManager;
 
@@ -85,5 +84,4 @@ public class XRObjectSpawner : MonoBehaviour
         aButton.action.Disable();
         bButton.action.Disable();
     }
-
 }
