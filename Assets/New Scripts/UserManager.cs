@@ -9,6 +9,7 @@ public class UserManager : MonoBehaviour
     public SaveList saveList;
     public TMP_InputField saveNameInput;
     public GameObject spatialKeyboard;
+    private SaveSystem.PrefabObjectData prefabObjectData;
 
     private string saveName;
     private bool wasKeyboardOpen = false;
@@ -26,7 +27,7 @@ public class UserManager : MonoBehaviour
         saveNameInput.onSelect.AddListener(OnInputSelected);
         saveNameInput.onDeselect.AddListener(OnInputDeselected);
 
-        LoadLatest(); //Sovelluksen avattaessa aukeaa viimeisin tallennus
+        //LoadLatest(); //Sovelluksen avattaessa aukeaa viimeisin tallennus
     }
 
     void Update()
@@ -47,6 +48,7 @@ public class UserManager : MonoBehaviour
     {
         Debug.Log("Input field focused — keyboard shown");
     }
+
     void OnInputDeselected(string _)
     {
         Debug.Log("Input field unfocused — keyboard closed");
@@ -58,10 +60,28 @@ public class UserManager : MonoBehaviour
         if (saveSystem == null) return;
 
         saveData = new SaveSystem.SaveData();
+        SaveSystem.PrefabObjectData objData = new SaveSystem.PrefabObjectData();
 
         saveData.playerX = transform.position.x;
         saveData.playerY = transform.position.y;
         saveData.playerZ = transform.position.z;
+
+        //prefabien tallennus
+        foreach (GameObject obj in SpawnedPrefabs.Instance.spawnedObjects)
+        {
+            if (obj == null) continue;
+
+            var data = new SaveSystem.PrefabObjectData
+            {
+                prefabID = obj.name.Replace("(Clone)", ""),
+                x = obj.transform.position.x,
+                y = obj.transform.position.y,
+                z = obj.transform.position.z,
+                rotation = obj.transform.rotation
+            };
+            saveData.prefabObjects.Add(data);
+            Debug.Log("Saving prefab: " + data.prefabID + " at " + data.x + "," + data.y + "," + data.z);
+        }
 
         // Tallenna terrain heightmap
         Terrain terrain = Terrain.activeTerrain;
@@ -123,6 +143,31 @@ public class UserManager : MonoBehaviour
         {
             transform.position = new Vector3(data.playerX, data.playerY, data.playerZ);
         }
+
+        //prefabien puhdistus ja lataaminen
+        foreach (var obj in SpawnedPrefabs.Instance.spawnedObjects)
+        {
+            if (obj != null)
+                Destroy(obj);
+        }
+        SpawnedPrefabs.Instance.spawnedObjects.Clear();
+        SpawnedPrefabs.Instance.CleanDestroyedReferences();
+
+        foreach (var objData in data.prefabObjects)
+        {
+            GameObject prefab = SpawnedPrefabs.Instance.GetPrefabByID(objData.prefabID);
+            if (prefab != null)
+            {
+                Vector3 pos = new Vector3(objData.x, objData.y, objData.z);
+                Quaternion rot = objData.rotation;
+                var obj = Instantiate(prefab, pos, rot);
+                obj.name = prefab.name;
+                obj.tag = "Spawnable";
+                SpawnedPrefabs.Instance.spawnedObjects.Add(obj);
+            }
+            Debug.Log("Trying to load prefab: " + objData.prefabID);
+        }
+
         //Lataa terrain heightmap
         if (data.terrainHeights != null && data.terrainHeights.Length > 0)
         {
@@ -132,6 +177,7 @@ public class UserManager : MonoBehaviour
             tData.SetHeights(0, 0, restored);
         }
     }
+
     //Funktiot heightmappien tallentamista varten
     private float[] Flatten(float[,] array)
     {

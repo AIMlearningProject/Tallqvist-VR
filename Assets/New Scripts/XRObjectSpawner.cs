@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
@@ -5,69 +6,160 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 public class XRObjectSpawner : MonoBehaviour
 {
     public XRRayInteractor xrRayInteractor;  // Reference to your existing XR Ray Interactor
-    public InputActionProperty joystickInput; // RightJoystick
-    public InputActionProperty aButton;       // AButton
-    public InputActionProperty bButton;       // BButton
+    public InputActionProperty joystickInput; // RightJoystick Swap prefab
+    public InputActionProperty aButton;       // AButton Spawn
+    public InputActionProperty bButton;       // BButton Delete
+    public InputActionProperty rotateInput; // RightJoystick Rotate prefab when grip is pressed
+    public InputActionProperty rotateModeButton;  // Grip button
 
     public PrefabManager prefabManager;
 
+    public float rotationSpeed = 45f; // Degrees per second
     private float joystickThreshold = 0.8f;
+
     private bool canChange = true;
+    private bool isInRotateMode = false;
+
+    private GameObject previewObject = null;
+
+    public GameObject spatialNameKeyboard;
 
     void Update()
     {
-        // Joystick Left/Right to change prefab
-        float horizontal = joystickInput.action.ReadValue<Vector2>().x;
+        isInRotateMode = rotateModeButton.action.IsPressed();
 
-        if (canChange && Mathf.Abs(horizontal) > joystickThreshold)
+        HandlePreviewObject();
+        HandlePrefabSwitching();
+        HandleSpawn();
+        HandleDelete();
+        LogInputs();
+
+        void HandlePreviewObject()
         {
-            if (horizontal > 0)
-                prefabManager.NextPrefab();
-            else
-                prefabManager.PreviousPrefab();
-
-            canChange = false;
-        }
-
-        if (Mathf.Abs(horizontal) < 0.1f)
-            canChange = true;
-
-        // A Button: Spawn
-        if (aButton.action.WasPressedThisFrame())
-        {
-            if (xrRayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
+            // Spawn preview object if null and A button pressed
+            if (previewObject == null && aButton.action.WasPressedThisFrame())
             {
-                GameObject prefab = prefabManager.GetCurrentPrefab();
-                Instantiate(prefab, hit.point, Quaternion.identity);
-            }
-        }
-
-        // B Button: Delete
-        if (bButton.action.WasPressedThisFrame())
-        {
-            if (xrRayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
-            {
-                if (hit.collider.CompareTag("Spawnable"))
+                if (xrRayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
                 {
-                    Destroy(hit.collider.transform.root.gameObject);
+                    GameObject prefab = prefabManager.GetCurrentPrefab();
+                    previewObject = Instantiate(prefab, hit.point, Quaternion.identity);
+
+                    // Disable collider for preview
+                    Collider col = previewObject.GetComponent<Collider>();
+                    if (col != null) col.enabled = false;
+                }
+            }
+
+            // If preview exists, update its position to raycast hit point
+            if (previewObject != null)
+            {
+                if (xrRayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
+                {
+                    previewObject.transform.position = hit.point;
+
+                    // Rotate preview while in rotate mode
+                    if (isInRotateMode)
+                    {
+                        float rotateValue = rotateInput.action.ReadValue<float>();
+                        if (Mathf.Abs(rotateValue) > 0.1f)
+                        {
+                            previewObject.transform.Rotate(Vector3.up, rotateValue * rotationSpeed * Time.deltaTime);
+                        }
+                    }
                 }
             }
         }
 
-        Vector2 joy = joystickInput.action.ReadValue<Vector2>();
-        if (joy.magnitude > 0.1f)
+        void HandlePrefabSwitching()
         {
-            Debug.Log("Joystick Input: " + joy);
+            if (isInRotateMode)
+                return; // Disable prefab switching during rotation mode
+
+            float horizontal = joystickInput.action.ReadValue<Vector2>().x;
+
+            if (canChange && Mathf.Abs(horizontal) > joystickThreshold)
+            {
+                if (horizontal > 0)
+                    prefabManager.NextPrefab();
+                else
+                    prefabManager.PreviousPrefab();
+
+                canChange = false;
+            }
+
+            if (Mathf.Abs(horizontal) < 0.1f)
+                canChange = true;
         }
 
-        if (aButton.action.WasPressedThisFrame())
+        void HandleSpawn()
         {
-            Debug.Log("A Button Pressed");
+            if (previewObject != null && aButton.action.WasPressedThisFrame())
+            {
+                // Enable collider and finalize placement
+                Collider col = previewObject.GetComponent<Collider>();
+                if (col != null) col.enabled = true;
+
+                // Tag as a spawnable for delete detection
+                previewObject.tag = "Spawnable";
+
+                if (!SpawnedPrefabs.Instance.spawnedObjects.Contains(previewObject))
+                {
+                    SpawnedPrefabs.Instance.spawnedObjects.Add(previewObject);
+                }
+
+                var activator = previewObject.GetComponentInChildren<HoverCanvasActivator>();
+                if (activator != null)
+                {
+                    TMP_InputField input = previewObject.GetComponentInChildren<TMP_InputField>(true);
+                    //activator.Initialize(spatialNameKeyboard, input);
+                    //activator.AutoAssignCanvasElements(spatialKeyboard); // p‰‰llekk‰isyytt‰, TESTAA
+                }
+                else
+                {
+                    Debug.LogWarning("Spawned object missing HoverCanvasActivator!");
+                }
+
+                previewObject = null;
+            }
         }
 
-        if (bButton.action.WasPressedThisFrame())
+        void HandleDelete()
         {
-            Debug.Log("B Button Pressed");
+            if (bButton.action.WasPressedThisFrame())
+            {
+                if (xrRayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
+                {
+                    GameObject obj = hit.collider.transform.root.gameObject;
+
+                    if (hit.collider.CompareTag("Spawnable"))
+                    {
+                        // Remove from the spawned list for saving to work correctly
+                        SpawnedPrefabs.Instance.spawnedObjects.Remove(obj);
+
+                        // Destroy the actual object
+                        Destroy(obj);
+                    }
+                }
+            }
+        }
+
+        void LogInputs()
+        {
+            Vector2 joy = joystickInput.action.ReadValue<Vector2>();
+            if (joy.magnitude > 0.1f)
+            {
+                Debug.Log("Joystick Input: " + joy);
+            }
+
+            if (aButton.action.WasPressedThisFrame())
+            {
+                Debug.Log("A Button Pressed");
+            }
+
+            if (bButton.action.WasPressedThisFrame())
+            {
+                Debug.Log("B Button Pressed");
+            }
         }
     }
 
@@ -76,6 +168,8 @@ public class XRObjectSpawner : MonoBehaviour
         joystickInput.action.Enable();
         aButton.action.Enable();
         bButton.action.Enable();
+        rotateModeButton.action.Enable();
+        rotateInput.action.Enable();
     }
 
     void OnDisable()
@@ -83,5 +177,7 @@ public class XRObjectSpawner : MonoBehaviour
         joystickInput.action.Disable();
         aButton.action.Disable();
         bButton.action.Disable();
+        rotateModeButton.action.Disable();
+        rotateInput.action.Disable();
     }
 }

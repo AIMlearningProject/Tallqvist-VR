@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
 
-////Terrainin, "pelaaja" datan ja prefab datan tallentaminen ohjelman suorittamisen aikana json muodossa
+// Terrainin, "pelaaja" datan ja prefab datan tallentaminen ohjelman suorittamisen aikana json muodossa
 public class SaveSystem : MonoBehaviour
 {
     private string saveDirectory; // Tallennuskansio
@@ -89,12 +90,23 @@ public class SaveSystem : MonoBehaviour
         }
     }
 
-    //M‰‰ritet‰‰n haluttu tallennus data
+    // M‰‰ritet‰‰n haluttu tallennus data:
+    // Prefabeille
+    [System.Serializable]
+    public class PrefabObjectData
+    {
+        public string prefabID;
+        public float x, y, z;
+        public Quaternion rotation;
+    }
+
+    // Varsinainen tallennus data
     [System.Serializable]
     public class SaveData
     {
         public float playerX, playerY, playerZ;
         public int heightmapResolution;
         public float[] terrainHeights;
+        public List<PrefabObjectData> prefabObjects = new List<PrefabObjectData>();
     }
 }
