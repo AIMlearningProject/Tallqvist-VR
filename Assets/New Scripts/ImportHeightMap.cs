@@ -90,12 +90,11 @@ public class ImportHeightMap : MonoBehaviour
     public void ResetTerrain(Terrain terrain)
     {
         TerrainData terrainData = terrain.terrainData;
-        int heightmapWidth = terrainData.heightmapResolution;
-        int heightmapHeight = terrainData.heightmapResolution;
-
-        float[,] flatHeights = new float[heightmapWidth, heightmapHeight];
+        int resolution = terrainData.heightmapResolution;
+        float[,] flatHeights = new float[resolution, resolution];
 
         terrain.terrainData.SetHeights(0, 0, flatHeights);
+        RaisePlayerAboveTerrain();
     }
 
     // Nosta k‰ytt‰j‰ terrainin yl‰puolelle. Est‰‰ k‰ytt‰j‰‰ tippumasta terrainin l‰pi.

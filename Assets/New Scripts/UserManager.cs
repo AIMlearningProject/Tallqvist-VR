@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
+using Unity.XR.CoreUtils;
 
 public class UserManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class UserManager : MonoBehaviour
     public TMP_InputField saveNameInput;
     public GameObject spatialKeyboard;
     private SaveSystem.PrefabObjectData prefabObjectData;
+    public XROrigin xrOrigin;
 
     private string saveName;
     private bool wasKeyboardOpen = false;
@@ -62,9 +64,10 @@ public class UserManager : MonoBehaviour
         saveData = new SaveSystem.SaveData();
         SaveSystem.PrefabObjectData objData = new SaveSystem.PrefabObjectData();
 
-        saveData.playerX = transform.position.x;
-        saveData.playerY = transform.position.y;
-        saveData.playerZ = transform.position.z;
+        Vector3 cameraPos = xrOrigin.Camera.transform.position;
+        saveData.playerX = cameraPos.x;
+        saveData.playerY = cameraPos.y;
+        saveData.playerZ = cameraPos.z;
 
         //prefabien tallennus
         foreach (GameObject obj in SpawnedPrefabs.Instance.spawnedObjects)
@@ -137,11 +140,12 @@ public class UserManager : MonoBehaviour
     public void LoadPlayer(string saveName)
     {
         if (saveSystem == null) return;
-            Debug.Log("Trying to load save with saveName: " + saveName);
+        Debug.Log("Trying to load save with saveName: " + saveName);
         SaveSystem.SaveData data = saveSystem.LoadWithName(saveName);
         if (data != null)
         {
-            transform.position = new Vector3(data.playerX, data.playerY, data.playerZ);
+            Vector3 pos = new Vector3(data.playerX, data.playerY, data.playerZ);
+            xrOrigin.MoveCameraToWorldLocation(pos);
         }
 
         //prefabien puhdistus ja lataaminen

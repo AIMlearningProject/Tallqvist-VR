@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using TMPro;
+using System.Linq;
 
 // Ajaa las2heightmap.exe ohjelman streaming assets kansiosta. Tehty c++ scriptistä joka muutta las. tiedostoja png "heightmap" muotoon.
 // "Lasfiles" kansiossa oleva las tidosto muutetaan heightmapiksi "generated_heightmpa.png" ja sijoitetaan "Heightmaps" kansioon.
@@ -119,8 +120,10 @@ public class LasConverter : MonoBehaviour
         }
 
         string[] lasFiles = Directory.GetFiles(lasFolder, "*.las");
+        string[] lazFiles = Directory.GetFiles(lasFolder, "*.laz");
+        string[] files = lasFiles.Concat(lazFiles).ToArray();
 
-        foreach (string fullPath in lasFiles)
+        foreach (string fullPath in files)
         {
             string fileName = Path.GetFileName(fullPath);
 
