@@ -40,8 +40,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 3.1}
-  m_SizeDelta: {x: 3, y: 2}
+  m_AnchoredPosition: {x: 0, y: 3.3}
+  m_SizeDelta: {x: 3.3, y: 1.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8646376693084870236
 Canvas:
@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.374663, g: 0.32871374, b: 0.32871374, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.6666667}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -236,7 +236,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2.8, y: 1.8}
+  m_SizeDelta: {x: 3.2, y: 1.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2325017565354071370
 CanvasRenderer:
@@ -581,6 +581,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasObject: {fileID: 3545122838700784386}
+  infoDisplayText: {fileID: 0}
+  saveInfoInput: {fileID: 0}
+  spatialKeyboard: {fileID: 0}
+  infoText: 
 --- !u!1 &7389499024391764325
 GameObject:
   m_ObjectHideFlags: 0
