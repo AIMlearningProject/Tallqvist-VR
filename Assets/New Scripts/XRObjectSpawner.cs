@@ -19,6 +19,8 @@ public class XRObjectSpawner : MonoBehaviour
 
     private bool canChange = true;
     private bool isInRotateMode = false;
+    bool hasPreviewBeenPlaced = false;
+    private bool rotateTogglePressedLastFrame = false;
 
     private GameObject previewObject = null;
 
@@ -26,7 +28,15 @@ public class XRObjectSpawner : MonoBehaviour
 
     void Update()
     {
-        isInRotateMode = rotateModeButton.action.IsPressed();
+        bool rotateButtonPressed = rotateModeButton.action.IsPressed();
+
+        if (rotateButtonPressed && !rotateTogglePressedLastFrame)
+        {
+            isInRotateMode = !isInRotateMode; // toggle on press
+            Debug.Log("Rotate mode toggled: " + isInRotateMode);
+        }
+
+        rotateTogglePressedLastFrame = rotateButtonPressed;
 
         HandlePreviewObject();
         HandlePrefabSwitching();
@@ -44,14 +54,30 @@ public class XRObjectSpawner : MonoBehaviour
                     GameObject prefab = prefabManager.GetCurrentPrefab();
                     previewObject = Instantiate(prefab, hit.point, Quaternion.identity);
 
-                    // Disable collider for preview
+                    previewObject.layer = LayerMask.NameToLayer("Ignore Raycast"); // Stop raycaster feedbackloop.
+
+                    // Disable collider and rigidbody for preview
                     Collider col = previewObject.GetComponent<Collider>();
                     if (col != null) col.enabled = false;
+
+                    Rigidbody rb = previewObject.GetComponent<Rigidbody>();
+                    if (rb != null)
+                    {
+                        rb.isKinematic = true; // prevents physics simulation
+                        rb.useGravity = false; // in case gravity was pulling it down
+                    }
+
+                    hasPreviewBeenPlaced = false;
                 }
             }
 
+            if (previewObject != null && !hasPreviewBeenPlaced && aButton.action.WasReleasedThisFrame())
+            {
+                hasPreviewBeenPlaced = true;
+            }
+
             // If preview exists, update its position to raycast hit point
-            if (previewObject != null)
+            if (previewObject != null && !hasPreviewBeenPlaced)
             {
                 if (xrRayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
                 {
@@ -93,11 +119,19 @@ public class XRObjectSpawner : MonoBehaviour
 
         void HandleSpawn()
         {
-            if (previewObject != null && aButton.action.WasPressedThisFrame())
+            if (previewObject != null && hasPreviewBeenPlaced && aButton.action.WasPressedThisFrame())
             {
-                // Enable collider and finalize placement
+                // Enable collider, rigidbody, interactable layer and finalize placement.
                 Collider col = previewObject.GetComponent<Collider>();
                 if (col != null) col.enabled = true;
+
+                Rigidbody rb = previewObject.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.isKinematic = false;
+                    rb.useGravity = true;
+                }
+                previewObject.layer = LayerMask.NameToLayer("Interactable");
 
                 // Tag as a spawnable for delete detection
                 previewObject.tag = "Spawnable";
@@ -120,6 +154,7 @@ public class XRObjectSpawner : MonoBehaviour
                 }
 
                 previewObject = null;
+                hasPreviewBeenPlaced = false; // Reset preview flag.
             }
         }
 
