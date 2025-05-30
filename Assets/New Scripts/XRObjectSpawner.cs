@@ -34,9 +34,9 @@ public class XRObjectSpawner : MonoBehaviour
     {
         bool rotateButtonPressed = rotateModeButton.action.IsPressed();
 
-        if (rotateButtonPressed && !rotateTogglePressedLastFrame)
+        if (rotateButtonPressed && !rotateTogglePressedLastFrame && !isInRotateMode)
         {
-            isInRotateMode = !isInRotateMode; // toggle on press
+            isInRotateMode = true; // Switch to rotate mode. Switches off when prefab is placed.
             Debug.Log("Rotate mode toggled: " + isInRotateMode);
 
             if (prefabHUD != null)
