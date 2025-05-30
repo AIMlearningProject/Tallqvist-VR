@@ -1,3 +1,4 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,9 +13,12 @@ public class XRObjectSpawner : MonoBehaviour
     public InputActionProperty rotateInput; // RightJoystick Rotate prefab when grip is pressed
     public InputActionProperty rotateModeButton;  // Grip button
 
+    public MonoBehaviour prefabHUD;
     public PrefabManager prefabManager;
+    public Material previewMaterial;
+    private Material[] originalMaterials;
 
-    public float rotationSpeed = 45f; // Degrees per second
+    public float rotationSpeed = 40f; // Degrees per second
     private float joystickThreshold = 0.8f;
 
     private bool canChange = true;
@@ -34,6 +38,11 @@ public class XRObjectSpawner : MonoBehaviour
         {
             isInRotateMode = !isInRotateMode; // toggle on press
             Debug.Log("Rotate mode toggled: " + isInRotateMode);
+
+            if (prefabHUD != null)
+            {
+                prefabHUD.enabled = !isInRotateMode;
+            }
         }
 
         rotateTogglePressedLastFrame = rotateButtonPressed;
@@ -46,8 +55,8 @@ public class XRObjectSpawner : MonoBehaviour
 
         void HandlePreviewObject()
         {
-            // Spawn preview object if null and A button pressed
-            if (previewObject == null && aButton.action.WasPressedThisFrame())
+            // Spawn preview object if null and Grip button is pressed.
+            if (previewObject == null && rotateModeButton.action.WasPressedThisFrame())
             {
                 if (xrRayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
                 {
@@ -65,6 +74,17 @@ public class XRObjectSpawner : MonoBehaviour
                     {
                         rb.isKinematic = true; // prevents physics simulation
                         rb.useGravity = false; // in case gravity was pulling it down
+                    }
+
+                    // Store original materials for restoring them back when spawning.
+                    originalMaterials = previewObject.GetComponentsInChildren<Renderer>()
+                        .Select(r => r.material)
+                        .ToArray();
+
+                    // Apply preview material.
+                    foreach (var renderer in previewObject.GetComponentsInChildren<Renderer>())
+                    {
+                        renderer.material = previewMaterial;
                     }
 
                     hasPreviewBeenPlaced = false;
@@ -86,10 +106,10 @@ public class XRObjectSpawner : MonoBehaviour
                     // Rotate preview while in rotate mode
                     if (isInRotateMode)
                     {
-                        float rotateValue = rotateInput.action.ReadValue<float>();
+                        float rotateValue = rotateInput.action.ReadValue<Vector2>().x;
                         if (Mathf.Abs(rotateValue) > 0.1f)
                         {
-                            previewObject.transform.Rotate(Vector3.up, rotateValue * rotationSpeed * Time.deltaTime);
+                            previewObject.transform.Rotate(Vector3.up, -rotateValue * rotationSpeed * Time.deltaTime);
                         }
                     }
                 }
@@ -133,6 +153,13 @@ public class XRObjectSpawner : MonoBehaviour
                 }
                 previewObject.layer = LayerMask.NameToLayer("Interactable");
 
+                // Restore original materials
+                var renderers = previewObject.GetComponentsInChildren<Renderer>();
+                for (int i = 0; i < renderers.Length; i++)
+                {
+                    renderers[i].material = originalMaterials[i];
+                }
+
                 // Tag as a spawnable for delete detection
                 previewObject.tag = "Spawnable";
 
@@ -153,7 +180,12 @@ public class XRObjectSpawner : MonoBehaviour
                     Debug.LogWarning("Spawned object missing HoverCanvasActivator!");
                 }
 
+                if (prefabHUD != null)
+                {
+                    prefabHUD.enabled = true;
+                }
                 previewObject = null;
+                isInRotateMode = false;
                 hasPreviewBeenPlaced = false; // Reset preview flag.
             }
         }

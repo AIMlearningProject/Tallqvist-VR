@@ -35,12 +35,12 @@ public class PrefabHUD : MonoBehaviour
         {
             if (!stickInUse)
             {
-                if (primary2DAxis.x > 0.5f)
+                if (primary2DAxis.x > 0.8f)
                 {
                     NextPrefab();
                     stickInUse = true;
                 }
-                else if (primary2DAxis.x < -0.5f)
+                else if (primary2DAxis.x < -0.8f)
                 {
                     PreviousPrefab();
                     stickInUse = true;

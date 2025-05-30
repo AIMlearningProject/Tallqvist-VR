@@ -3346,6 +3346,7 @@ GameObject:
   m_Component:
   - component: {fileID: 794536911}
   - component: {fileID: 794536910}
+  - component: {fileID: 794536912}
   m_Layer: 0
   m_Name: ObjectSpawner
   m_TagString: Untagged
@@ -3435,22 +3436,40 @@ MonoBehaviour:
       m_Id: 753d21c1-d17a-436f-b5af-fd083c40d468
       m_Processors: 
       m_Interactions: 
-      m_SingletonActionBindings: []
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: a421440e-fb84-458e-a589-af21fb944a93
+        m_Path: <XRController>{RightHand}/thumbstick
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Rotate Input
+        m_Flags: 0
       m_Flags: 0
     m_Reference: {fileID: 0}
   rotateModeButton:
     m_UseReference: 0
     m_Action:
       m_Name: Rotate Mode Button
-      m_Type: 0
-      m_ExpectedControlType: 
+      m_Type: 1
+      m_ExpectedControlType: Button
       m_Id: 79bfcef9-dcab-4aa2-a405-58282f7a6ef5
       m_Processors: 
       m_Interactions: 
-      m_SingletonActionBindings: []
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: 7c750e9c-d979-4f95-8604-24e61ef0b592
+        m_Path: <XRController>{RightHand}/{GripButton}
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Rotate Mode Button
+        m_Flags: 0
       m_Flags: 0
     m_Reference: {fileID: 0}
+  prefabHUD: {fileID: 794536912}
   prefabManager: {fileID: 1034564034}
+  previewMaterial: {fileID: 2100000, guid: 2454268f5ce351345ae8c54aecf44743, type: 2}
   rotationSpeed: 45
   spatialNameKeyboard: {fileID: 1458535472}
 --- !u!4 &794536911
@@ -3468,6 +3487,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 441087507}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &794536912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794536909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1803da0769afa364d90ba3272b411a10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabs:
+  - {fileID: 6210860425150587725, guid: 065c1b89ab6d6204582dbd9476476310, type: 3}
+  - {fileID: 8496005221253548807, guid: 72e4c6e772997ab48bfee9c5c7c08137, type: 3}
+  - {fileID: 5926766399304892060, guid: 9d14e18429980eb4c902608c3fd6fb3e, type: 3}
+  - {fileID: 7186261496578331143, guid: 4b40d1ecd0b16ff4595ce840600a3a5d, type: 3}
+  PrefabLabel: {fileID: 417365823}
 --- !u!1 &836810730
 GameObject:
   m_ObjectHideFlags: 0
@@ -4464,7 +4501,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1034564035}
   - component: {fileID: 1034564034}
-  - component: {fileID: 1034564036}
   - component: {fileID: 1034564037}
   m_Layer: 0
   m_Name: PrefabSystem
@@ -4505,24 +4541,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1034564036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1034564033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1803da0769afa364d90ba3272b411a10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabs:
-  - {fileID: 6210860425150587725, guid: 065c1b89ab6d6204582dbd9476476310, type: 3}
-  - {fileID: 8496005221253548807, guid: 72e4c6e772997ab48bfee9c5c7c08137, type: 3}
-  - {fileID: 5926766399304892060, guid: 9d14e18429980eb4c902608c3fd6fb3e, type: 3}
-  - {fileID: 7186261496578331143, guid: 4b40d1ecd0b16ff4595ce840600a3a5d, type: 3}
-  PrefabLabel: {fileID: 417365823}
 --- !u!114 &1034564037
 MonoBehaviour:
   m_ObjectHideFlags: 0
