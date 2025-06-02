@@ -153,14 +153,14 @@ public class XRObjectSpawner : MonoBehaviour
                 }
                 previewObject.layer = LayerMask.NameToLayer("Interactable");
 
-                // Restore original materials
+                // Restore original materials.
                 var renderers = previewObject.GetComponentsInChildren<Renderer>();
                 for (int i = 0; i < renderers.Length; i++)
                 {
                     renderers[i].material = originalMaterials[i];
                 }
 
-                // Tag as a spawnable for delete detection
+                // Tag as a spawnable for delete detection.
                 previewObject.tag = "Spawnable";
 
                 if (!SpawnedPrefabs.Instance.spawnedObjects.Contains(previewObject))

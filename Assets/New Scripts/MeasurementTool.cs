@@ -13,6 +13,8 @@ public class MeasurementTool : MonoBehaviour
     public GameObject measurePanel; // MeasurePanel
     public XRRayInteractor xrRayInteractor;
 
+    public MonoBehaviour TeleportUser;
+
     public InputActionProperty toggleToolAction; // XButton (leftPrimary)
     public InputActionProperty placePointAction; // Left Trigger
 
@@ -54,6 +56,12 @@ public class MeasurementTool : MonoBehaviour
         if (measurePanel != null)
         {
             measurePanel.SetActive(toolActive); // use toolActive directly
+        }
+
+        // Poista teleporttaaminen käytöstä kun mittaustyökalu on aktivoituna.
+        if (TeleportUser != null)
+        {
+            TeleportUser.enabled = !toolActive;
         }
 
         if (pointA) pointA.SetActive(toolActive);
