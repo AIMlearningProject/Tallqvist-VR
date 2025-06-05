@@ -1,31 +1,52 @@
 using TMPro;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
+
+// Activates canvas elements on prefabs when pointing at them with raycaster.
+// Functionality to rewrite canvas info texts on run time. Now can only edit currently spawned prefab, no "old" ones.
 
 public class HoverCanvasActivator : MonoBehaviour
 {
-    [SerializeField] public GameObject canvasObject;
+    public InputActionProperty Trigger; // RightHand XRcontroller Trigger Button
+    [SerializeField] public GameObject canvasObject; // Prefabs -> "Prefab" -> "Prefab"Canvas
+    [SerializeField] public TMP_Text infoDisplayText; // Prefabs -> "Prefab" -> "Prefab"Canvas -> text(TMP)
 
-    [SerializeField] public TMP_Text infoDisplayText;
-    public TMP_InputField saveInfoInput;
+    [SerializeField] private TMP_InputField inputField;
+    private XRRayInteractor xrRayInteractor;
     public GameObject spatialKeyboard;
 
-    public string infoText;
+    public static HoverCanvasActivator currentActive;
     private bool wasKeyboardOpen = false;
 
-    public void Initialize(GameObject keyboard, TMP_InputField inputField)
+    void Start()
     {
-        Debug.Log("Initializing HoverCanvasActivator with keyboard: " + keyboard.name);
-
-        spatialKeyboard = keyboard;
-        saveInfoInput = inputField;
-
-        if (saveInfoInput != null)
+        if (xrRayInteractor == null)
         {
-            saveInfoInput.onSelect.AddListener(OnInputSelected);
-            saveInfoInput.onDeselect.AddListener(OnInputDeselected);
+            xrRayInteractor = FindFirstObjectByType<XRRayInteractor>();
         }
+        if (canvasObject != null)
+        {
+            canvasObject.SetActive(false);
+        }
+
+        if (infoDisplayText == null)
+            Debug.LogError("infoDisplayText is NOT assigned!");
+        else
+            Debug.Log("infoDisplayText assigned: " + infoDisplayText.name);
+    }
+
+    void OnEnable()
+    {
+        Trigger.action.Enable();
+    }
+
+    void OnDisable()
+    {
+        Trigger.action.Disable();
     }
 
     void Update()
@@ -35,24 +56,36 @@ public class HoverCanvasActivator : MonoBehaviour
 
         if (wasKeyboardOpen && !spatialKeyboard.activeSelf)
         {
-            Debug.Log("Keyboard was just closed. Triggering newInfo.");
-            OnInfoNameEntered(saveInfoInput.text);
+            Debug.Log("Keyboard was just closed.");
             wasKeyboardOpen = false;
+
+            if (HoverCanvasActivator.currentActive == this && inputField != null) // Calls OnInputFieldSubmit.
+            {
+                inputField.onEndEdit.Invoke(inputField.text);
+            }
         }
+
         if (spatialKeyboard.activeSelf)
         {
             wasKeyboardOpen = true;
         }
-    }
 
-    private void Awake()
-    {
-        if (canvasObject != null)
+        if (Trigger.action.WasPressedThisFrame())
         {
-            canvasObject.SetActive(false); // Make sure it's off initially
+            if (xrRayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
+            {
+                // Check if the raycast hit info canvas.
+                var canvas = hit.collider.GetComponentInParent<Canvas>();
+                if (canvas != null)
+                {
+                    OnClickNewInfo();
+                }
+            }
         }
     }
 
+    // For canvas to activate when prefab is pointed with raycaster.
+    // Assigned to XR Grab Interactable -> Interactable Events.
     public void OnHoverEntered(HoverEnterEventArgs args)
     {
         if (canvasObject != null)
@@ -69,70 +102,132 @@ public class HoverCanvasActivator : MonoBehaviour
         }
     }
 
-    void OnInputSelected(string _)
+    public void ReceiveKeyboardInput(string input)
     {
-        Debug.Log("Input field focused — showing keyboard");
-        spatialKeyboard.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(saveInfoInput.gameObject);
+        Debug.Log($"ReceiveKeyboardInput called with input: '{input}'");
+
+        if (string.IsNullOrWhiteSpace(input))
+        {
+            Debug.LogWarning("Keyboard input is empty.");
+            return;
+        }
+
+        infoDisplayText.text = input;
+        infoDisplayText.ForceMeshUpdate();
+
+        Debug.Log("infoDisplayText is child of: " + infoDisplayText.transform.parent.name);
+        Debug.Log("This HoverCanvasActivator is on: " + gameObject.name);
+
+        spatialKeyboard?.SetActive(false);
+        StartCoroutine(ClearSelectedGameObjectNextFrame());
     }
-    void OnInputDeselected(string _)
+
+    public void OnInputFieldSubmit(string text)
     {
-        Debug.Log("Input field unfocused — keyboard closed");
-        OnInfoNameEntered(saveInfoInput.text);
+        if (string.IsNullOrEmpty(text))
+            return;
+
+        ReceiveKeyboardInput(inputField.text);
+
+        spatialKeyboard?.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void OnClickNewInfo()
     {
-        if (spatialKeyboard != null)
+        if (spatialKeyboard == null || inputField == null)
         {
-            infoText = infoDisplayText.text; // Start with current value
-            spatialKeyboard.SetActive(true);
-        }
-        saveInfoInput.text = "";
-        saveInfoInput.ForceLabelUpdate();
-        saveInfoInput.ActivateInputField();
-        saveInfoInput.caretPosition = 0;
-        saveInfoInput.selectionAnchorPosition = 0;
-        saveInfoInput.selectionFocusPosition = 0;
-        EventSystem.current.SetSelectedGameObject(saveInfoInput.gameObject);
-        spatialKeyboard.SetActive(true);
-    }
-
-    public void OnInfoNameEntered(string input)
-    {
-        if (string.IsNullOrWhiteSpace(input))
-        {
-            Debug.LogWarning("Save name is empty!");
             return;
         }
-        infoText = input;
-        newInfo(infoText);
-        spatialKeyboard.SetActive(false);
-        saveInfoInput.text = "";
-        saveInfoInput.DeactivateInputField();
+
+        if (inputField == null)
+        {
+            Debug.LogWarning("inputField is null!");
+            return;
+        }
+
+        if (currentActive != null && currentActive != this) // Trying to get old canvases editable, not yet working.
+        {
+            currentActive.DeactivateInput();
+        }
+        currentActive = this;
+
+        spatialKeyboard.SetActive(true);
+        StartCoroutine(FocusInputFieldNextFrame());
+        EventSystem.current.SetSelectedGameObject(inputField.gameObject);
+        inputField.ActivateInputField();
+        inputField.Select();
+    }
+
+    // Initialize is callde from XRObjectSpawner when spawning prefabs -> HandleSpawn()
+    public void Initialize(GameObject spatialKeyboardFromScene, TMP_InputField inputFieldFromSpatialKeyboard)
+    {
+        spatialKeyboard = spatialKeyboardFromScene;
+        inputField = inputFieldFromSpatialKeyboard;
+
+        // Assign canvasObject if null or unassigned.
+        if (canvasObject == null)
+        {
+            canvasObject = GetComponentInChildren<Canvas>(true)?.gameObject;
+            if (canvasObject == null)
+            {
+                Debug.LogWarning("Canvas object not found in children during Initialize.");
+            }
+        }
+
+        // Assign infoDisplayText if null or unassigned.
+        if (infoDisplayText == null)
+        {
+            infoDisplayText = GetComponentInChildren<TMPro.TMP_Text>(true);
+            if (infoDisplayText == null)
+            {
+                Debug.LogWarning("TMP_Text (infoDisplayText) not found in children during Initialize.");
+            }
+        }
+
+        if (inputField != null)
+        {
+            inputField.onEndEdit.RemoveAllListeners();
+            inputField.onEndEdit.AddListener(OnInputFieldSubmit);
+        }
+
+        if (spatialKeyboard == null)
+        {
+            Debug.LogWarning("SpatialKeyboard passed to Initialize is null.");
+        }
+
+        Debug.Log($"Initialize completed. spatialKeyboard: {spatialKeyboard?.name}, inputField: {inputField?.name}, canvasObject: {canvasObject?.name}, infoDisplayText: {infoDisplayText?.name}");
+    }
+
+    // Trying to get old canvases editable, not working yet.
+    public void DeactivateInput()
+    {
+        if (inputField != null)
+        {
+            inputField.onEndEdit.Invoke(inputField.text);
+            inputField.DeactivateInputField();
+        }
+
+        if (canvasObject != null)
+        {
+            canvasObject.SetActive(false);
+        }
+    }
+
+    // So events wont be triggered at the same time.
+    private IEnumerator ClearSelectedGameObjectNextFrame()
+    {
+        yield return null; // Wait for one frame.
         EventSystem.current.SetSelectedGameObject(null);
     }
 
-    public void newInfo(string newInfo)
+    private IEnumerator FocusInputFieldNextFrame()
     {
-        if (infoDisplayText != null)
-        {
-            infoDisplayText.text = newInfo;
-            Debug.Log("Updated info display to: " + newInfo);
-        }
-        else
-        {
-            Debug.LogWarning("Info display text reference not set!");
-        }
-    }
-
-    public void AutoAssignCanvasElements(GameObject spatialKeyboardFromScene)
-    {
-        // Automatically find canvas and UI components inside this prefab
-        canvasObject = GetComponentInChildren<Canvas>(true)?.gameObject;
-        infoDisplayText = GetComponentInChildren<TMPro.TMP_Text>(true);
-        saveInfoInput = GetComponentInChildren<TMPro.TMP_InputField>(true);
-        if (spatialKeyboard == null)
-            spatialKeyboard = spatialKeyboardFromScene;
+        yield return null; // Wait for one frame.
+        EventSystem.current.SetSelectedGameObject(null);
+        yield return null; // Wait for two frames.
+        EventSystem.current.SetSelectedGameObject(inputField.gameObject);
+        inputField.ActivateInputField();
+        inputField.Select();
     }
 }

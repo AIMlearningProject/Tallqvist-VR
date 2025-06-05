@@ -171,9 +171,8 @@ public class XRObjectSpawner : MonoBehaviour
                 var activator = previewObject.GetComponentInChildren<HoverCanvasActivator>();
                 if (activator != null)
                 {
-                    TMP_InputField input = previewObject.GetComponentInChildren<TMP_InputField>(true);
-                    //activator.Initialize(spatialNameKeyboard, input);
-                    //activator.AutoAssignCanvasElements(spatialKeyboard); // p‰‰llekk‰isyytt‰, TESTAA
+                    TMP_InputField input = spatialNameKeyboard.GetComponentInChildren<TMP_InputField>(true);
+                    activator.Initialize(spatialNameKeyboard, input);
                 }
                 else
                 {
@@ -215,7 +214,7 @@ public class XRObjectSpawner : MonoBehaviour
             Vector2 joy = joystickInput.action.ReadValue<Vector2>();
             if (joy.magnitude > 0.1f)
             {
-                Debug.Log("Joystick Input: " + joy);
+                //Debug.Log("Joystick Input: " + joy);
             }
 
             if (aButton.action.WasPressedThisFrame())

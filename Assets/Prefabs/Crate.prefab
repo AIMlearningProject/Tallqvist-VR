@@ -143,7 +143,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 3.2, y: 1.7}
+  m_SizeDelta: {x: 3, y: 1.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8782936142246938911
 CanvasRenderer:
@@ -261,6 +261,7 @@ GameObject:
   - component: {fileID: 4419487858469800094}
   - component: {fileID: 2954074798408705109}
   - component: {fileID: 1208575398699867808}
+  - component: {fileID: 8979649548553628576}
   m_Layer: 5
   m_Name: CrateCanvas
   m_TagString: Untagged
@@ -467,6 +468,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.3, y: 1.8, z: 0.1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8979649548553628576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6013363320530033720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7951c64acb0fa62458bf30a60089fe2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 0
+  m_CheckFor2DOcclusion: 0
+  m_CheckFor3DOcclusion: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RaycastTriggerInteraction: 1
 --- !u!1 &6210860425150587725
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,8 +730,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6b8b522118159d4297e122b70be0b53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Trigger:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Trigger
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 6a133997-68b7-44c6-b489-c8c35a34a378
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: feb04d66-e7be-452b-83e1-5a26729ca45c
+        m_Path: <XRController>{RightHand}/{TriggerButton}
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Trigger
+        m_Flags: 0
+      m_Flags: 0
+    m_Reference: {fileID: 0}
   canvasObject: {fileID: 6013363320530033720}
-  infoDisplayText: {fileID: 0}
-  saveInfoInput: {fileID: 0}
+  infoDisplayText: {fileID: 6272170354289735982}
+  inputField: {fileID: 0}
   spatialKeyboard: {fileID: 0}
-  infoText: 

@@ -2547,7 +2547,6 @@ GameObject:
   - component: {fileID: 537876409}
   - component: {fileID: 537876408}
   - component: {fileID: 537876407}
-  - component: {fileID: 537876406}
   m_Layer: 5
   m_Name: ConvertLasBtn
   m_TagString: Untagged
@@ -2575,27 +2574,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -150}
   m_SizeDelta: {x: 300, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!65 &537876406
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 537876404}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 300, y: 70, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &537876407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3299,7 +3277,6 @@ GameObject:
   - component: {fileID: 722011852}
   - component: {fileID: 722011851}
   - component: {fileID: 722011850}
-  - component: {fileID: 722011849}
   m_Layer: 5
   m_Name: LoadLatestBtn
   m_TagString: Untagged
@@ -3327,27 +3304,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 150.00005}
   m_SizeDelta: {x: 300, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!65 &722011849
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 722011847}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 300, y: 70, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &722011850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4352,7 +4308,6 @@ GameObject:
   - component: {fileID: 979807783}
   - component: {fileID: 979807782}
   - component: {fileID: 979807781}
-  - component: {fileID: 979807784}
   m_Layer: 5
   m_Name: ImportPcBtn
   m_TagString: Untagged
@@ -4486,27 +4441,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 979807779}
   m_CullTransparentMesh: 1
---- !u!65 &979807784
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 979807779}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 300, y: 70, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1000934750
 GameObject:
   m_ObjectHideFlags: 0
@@ -5263,7 +5197,6 @@ GameObject:
   - component: {fileID: 1178530598}
   - component: {fileID: 1178530597}
   - component: {fileID: 1178530596}
-  - component: {fileID: 1178530599}
   m_Layer: 5
   m_Name: QuitBtn
   m_TagString: Untagged
@@ -5385,27 +5318,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1178530594}
   m_CullTransparentMesh: 1
---- !u!65 &1178530599
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1178530594}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 300, y: 70, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1180545561
 GameObject:
   m_ObjectHideFlags: 0
@@ -5993,7 +5905,6 @@ GameObject:
   - component: {fileID: 1413279669}
   - component: {fileID: 1413279668}
   - component: {fileID: 1413279667}
-  - component: {fileID: 1413279670}
   m_Layer: 5
   m_Name: LoadMenuBtn
   m_TagString: Untagged
@@ -6115,27 +6026,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1413279665}
   m_CullTransparentMesh: 1
---- !u!65 &1413279670
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1413279665}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 300, y: 70, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1416488504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10428,7 +10318,6 @@ GameObject:
   - component: {fileID: 1755903677}
   - component: {fileID: 1755903676}
   - component: {fileID: 1755903675}
-  - component: {fileID: 1755903674}
   m_Layer: 5
   m_Name: ResetTerrainBtn
   m_TagString: Untagged
@@ -10456,27 +10345,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -250}
   m_SizeDelta: {x: 300, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!65 &1755903674
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1755903672}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 300, y: 70, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1755903675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12360,7 +12228,6 @@ GameObject:
   - component: {fileID: 2110802464}
   - component: {fileID: 2110802463}
   - component: {fileID: 2110802462}
-  - component: {fileID: 2110802465}
   m_Layer: 5
   m_Name: SaveBtn
   m_TagString: Untagged
@@ -12482,27 +12349,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2110802460}
   m_CullTransparentMesh: 1
---- !u!65 &2110802465
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2110802460}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 300, y: 70, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2123017253
 GameObject:
   m_ObjectHideFlags: 0

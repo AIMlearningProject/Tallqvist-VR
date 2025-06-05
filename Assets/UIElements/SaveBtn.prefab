@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 921311449263870541}
   - component: {fileID: 1952164465472329679}
   - component: {fileID: 5092883376161956112}
-  - component: {fileID: 2796291624775149395}
   m_Layer: 5
   m_Name: SaveBtn
   m_TagString: Untagged
@@ -123,27 +122,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!65 &2796291624775149395
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779275082362993335}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 300, y: 70, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4387993628650208860
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +134,6 @@ GameObject:
   - component: {fileID: 4562092536473184982}
   - component: {fileID: 1497857410042786630}
   - component: {fileID: 2319478757346543662}
-  - component: {fileID: 6632007081336542409}
   m_Layer: 5
   m_Name: DeleteBtn
   m_TagString: Untagged
@@ -266,27 +243,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!65 &6632007081336542409
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4387993628650208860}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 70, y: 70, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6192017252640645513
 GameObject:
   m_ObjectHideFlags: 0

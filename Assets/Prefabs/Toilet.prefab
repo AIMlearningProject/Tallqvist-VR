@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 2392167796922229222}
   - component: {fileID: 2078896276384574010}
   - component: {fileID: 4122538563415896498}
+  - component: {fileID: 6144140630202643336}
   m_Layer: 5
   m_Name: WCCanvas
   m_TagString: Untagged
@@ -223,6 +224,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.3, y: 1.8, z: 0.1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6144140630202643336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3545122838700784386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7951c64acb0fa62458bf30a60089fe2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 0
+  m_CheckFor2DOcclusion: 0
+  m_CheckFor3DOcclusion: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RaycastTriggerInteraction: 1
 --- !u!1 &4489160342991019078
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,7 +278,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 3.2, y: 1.7}
+  m_SizeDelta: {x: 3, y: 1.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2325017565354071370
 CanvasRenderer:
@@ -602,11 +622,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6b8b522118159d4297e122b70be0b53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Trigger:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Trigger
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: e36671a6-2056-42eb-b03d-ed40e2afd500
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: 78068cb2-cd26-4053-b160-d198420a8b47
+        m_Path: <XRController>{RightHand}/{TriggerButton}
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Trigger
+        m_Flags: 0
+      m_Flags: 0
+    m_Reference: {fileID: 0}
   canvasObject: {fileID: 3545122838700784386}
-  infoDisplayText: {fileID: 0}
-  saveInfoInput: {fileID: 0}
+  infoDisplayText: {fileID: 8958614900360863662}
+  inputField: {fileID: 0}
   spatialKeyboard: {fileID: 0}
-  infoText: 
 --- !u!1 &7389499024391764325
 GameObject:
   m_ObjectHideFlags: 0
