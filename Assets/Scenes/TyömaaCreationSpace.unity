@@ -3747,7 +3747,6 @@ MonoBehaviour:
   - {fileID: 6210860425150587725, guid: 065c1b89ab6d6204582dbd9476476310, type: 3}
   - {fileID: 8496005221253548807, guid: 72e4c6e772997ab48bfee9c5c7c08137, type: 3}
   - {fileID: 5926766399304892060, guid: 9d14e18429980eb4c902608c3fd6fb3e, type: 3}
-  - {fileID: 7186261496578331143, guid: 4b40d1ecd0b16ff4595ce840600a3a5d, type: 3}
   PrefabLabel: {fileID: 417365823}
 --- !u!1 &836810730
 GameObject:
@@ -4747,7 +4746,6 @@ MonoBehaviour:
   - {fileID: 6210860425150587725, guid: 065c1b89ab6d6204582dbd9476476310, type: 3}
   - {fileID: 8496005221253548807, guid: 72e4c6e772997ab48bfee9c5c7c08137, type: 3}
   - {fileID: 5926766399304892060, guid: 9d14e18429980eb4c902608c3fd6fb3e, type: 3}
-  - {fileID: 7186261496578331143, guid: 4b40d1ecd0b16ff4595ce840600a3a5d, type: 3}
 --- !u!4 &1034564035
 Transform:
   m_ObjectHideFlags: 0
@@ -4779,7 +4777,6 @@ MonoBehaviour:
   - {fileID: 6210860425150587725, guid: 065c1b89ab6d6204582dbd9476476310, type: 3}
   - {fileID: 8496005221253548807, guid: 72e4c6e772997ab48bfee9c5c7c08137, type: 3}
   - {fileID: 5926766399304892060, guid: 9d14e18429980eb4c902608c3fd6fb3e, type: 3}
-  - {fileID: 7186261496578331143, guid: 4b40d1ecd0b16ff4595ce840600a3a5d, type: 3}
   spawnedObjects: []
 --- !u!1 &1044684105
 GameObject:
@@ -9742,7 +9739,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1228088789}
   m_HandleRect: {fileID: 1228088788}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

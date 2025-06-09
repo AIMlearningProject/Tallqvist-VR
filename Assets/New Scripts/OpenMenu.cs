@@ -84,7 +84,7 @@ public class OpenMenu : MonoBehaviour
 
     public void QuitGame()
     {
-        //Application.Quit();
-        UnityEditor.EditorApplication.ExitPlaymode();
+        Application.Quit();
+        //UnityEditor.EditorApplication.ExitPlaymode();
     }
 }
