@@ -13,7 +13,6 @@ public class XRObjectSpawner : MonoBehaviour
     public InputActionProperty rotateInput; // RightJoystick Rotate prefab when grip is pressed
     public InputActionProperty rotateModeButton;  // Grip button
 
-    public MonoBehaviour prefabHUD;
     public PrefabManager prefabManager;
     public Material previewMaterial;
     private Material[] originalMaterials;
@@ -38,11 +37,6 @@ public class XRObjectSpawner : MonoBehaviour
         {
             isInRotateMode = true; // Switch to rotate mode. Switches off when prefab is placed.
             Debug.Log("Rotate mode toggled: " + isInRotateMode);
-
-            if (prefabHUD != null)
-            {
-                prefabHUD.enabled = !isInRotateMode;
-            }
         }
 
         rotateTogglePressedLastFrame = rotateButtonPressed;
@@ -179,10 +173,6 @@ public class XRObjectSpawner : MonoBehaviour
                     Debug.LogWarning("Spawned object missing HoverCanvasActivator!");
                 }
 
-                if (prefabHUD != null)
-                {
-                    prefabHUD.enabled = true;
-                }
                 previewObject = null;
                 isInRotateMode = false;
                 hasPreviewBeenPlaced = false; // Reset preview flag.
