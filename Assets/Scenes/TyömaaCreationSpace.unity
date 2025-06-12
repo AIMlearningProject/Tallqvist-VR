@@ -3989,7 +3989,6 @@ MonoBehaviour:
         m_Flags: 0
       m_Flags: 0
     m_Reference: {fileID: 0}
-  prefabHUD: {fileID: 0}
   prefabManager: {fileID: 1034564034}
   previewMaterial: {fileID: 2100000, guid: 2454268f5ce351345ae8c54aecf44743, type: 2}
   rotationSpeed: 45
