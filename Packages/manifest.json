@@ -1,11 +1,4 @@
 {
-  "scopedRegistries": [
-  {
-    "name": "Keijiro",
-    "url": "https://registry.npmjs.com",
-    "scopes": [ "jp.keijiro" ]
-  }
-],
   "dependencies": {
     "com.meta.xr.sdk.all": "74.0.2",
     "com.unity.2d.sprite": "1.0.0",
@@ -54,7 +47,6 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0",
-    "jp.keijiro.pcx": "1.0.1"
+    "com.unity.modules.xr": "1.0.0"
   }
 }
