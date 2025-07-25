@@ -12,6 +12,7 @@ public class OpenMenu : MonoBehaviour
     public GameObject importPanel;
     public GameObject convertPanel;
     public GameObject instructionsPanel;
+    public GameObject VoxObjPanel;
 
     private InputDevice leftController;
 
@@ -55,6 +56,10 @@ public class OpenMenu : MonoBehaviour
         {
             convertPanel.SetActive(false);
         }
+        if (VoxObjPanel != null && VoxObjPanel.activeSelf)
+        {
+            VoxObjPanel.SetActive(false);
+        }
     }
 
     // Funktio "Lataa scene napille", lis‰t‰‰n nappin on click eventtiin kutsuttavaksi.
@@ -64,6 +69,7 @@ public class OpenMenu : MonoBehaviour
         importPanel.SetActive(false);
         convertPanel.SetActive(false);
         instructionsPanel.SetActive(false);
+        VoxObjPanel.SetActive(false);
     }
 
     public void OpenImportMenu()
@@ -72,11 +78,22 @@ public class OpenMenu : MonoBehaviour
         loadPanel.SetActive(false);
         convertPanel.SetActive(false);
         instructionsPanel.SetActive(false);
+        VoxObjPanel.SetActive(false);
     }
 
     public void OpenConvertMenu()
     {
         convertPanel.SetActive(true);
+        importPanel.SetActive(false);
+        loadPanel.SetActive(false);
+        instructionsPanel.SetActive(false);
+        VoxObjPanel.SetActive(false);
+    }
+
+    public void OpenVoxObjMenu()
+    {
+        VoxObjPanel.SetActive(true);
+        convertPanel.SetActive(false);
         importPanel.SetActive(false);
         loadPanel.SetActive(false);
         instructionsPanel.SetActive(false);
