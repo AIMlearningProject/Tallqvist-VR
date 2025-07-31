@@ -2,12 +2,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
+using Pcx;
 
 public class VoxListManager : MonoBehaviour
 {
     [Header("UI References")]
-    public RectTransform contentParent;    // ScrollView content panel
-    public GameObject buttonPrefab;        // Prefab Button
+    public RectTransform contentParent;    // ScrollView content (VoxelList)
+    public GameObject buttonPrefab;        // Prefab Button (importButton)
+
+    public RectTransform plyContentParent; // Scrollview content (PlyList)
+    public string plyDirectoryName = "PlyFiles";
 
     [Header("Vox Settings")]
     public string voxDirectoryName = "Exports";
@@ -15,6 +19,7 @@ public class VoxListManager : MonoBehaviour
     void Start()
     {
         PopulateVoxList();
+        PopulatePlyList();
     }
 
     public void PopulateVoxList()
@@ -54,6 +59,54 @@ public class VoxListManager : MonoBehaviour
         }
     }
 
+    public void PopulatePlyList()
+    {
+        // Clear existing buttons
+        foreach (Transform child in plyContentParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        string plyFolder = Path.Combine(Application.persistentDataPath, plyDirectoryName);
+
+        if (!Directory.Exists(plyFolder))
+        {
+            Debug.LogWarning($"PLY folder not found: {plyFolder}");
+            return;
+        }
+
+        string[] plyPaths = Directory.GetFiles(plyFolder, "*.ply");
+
+        foreach (string plyPath in plyPaths)
+        {
+            // Create a button for each .ply file
+            string fileName = Path.GetFileName(plyPath);
+            GameObject buttonGO = Instantiate(buttonPrefab, plyContentParent);
+            buttonGO.GetComponentInChildren<TMP_Text>().text = fileName;
+
+            // Add the click listener
+            buttonGO.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                // Create a temporary GameObject
+                GameObject tempGO = new GameObject("PointCloudConverter");
+
+                // Add required components
+                var renderer = tempGO.AddComponent<PointCloudRenderer>();
+                var converter = tempGO.AddComponent<ComputeBufferToVox>();
+
+                // Load .ply data into the PointCloudRenderer
+                renderer.sourceData = PlyImporterRuntime.Load(plyPath);
+
+                // Start the conversion
+                converter.ConvertToVoxels();
+
+                // Update the VoxList
+                PopulateVoxList();
+            });
+        }
+    }
+
+    // For calling the Cubizer
     void LoadVoxel(string path)
     {
         // Call VOX loader here!

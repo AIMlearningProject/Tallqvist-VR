@@ -12,12 +12,12 @@ using UnityEngine;
 public class ComputeBufferToVox : MonoBehaviour
 {
     private PointCloudData pointCloud;
-    public float voxelSize = 2f;
+    public float voxelSize = 0.2f;
 
     [Header("Export Settings")]
     public string fileName = "Generated.vox";
 
-    void Start()
+    public void ConvertToVoxels()
     {
         // Get the PCX renderer component.
         var pcxRenderer = GetComponent<PointCloudRenderer>();
