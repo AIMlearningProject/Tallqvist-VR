@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using TMPro;
 using System.IO;
 using Pcx;
+using Cubizer.Model;
+using System.Linq;
 
 public class VoxListManager : MonoBehaviour
 {
@@ -18,45 +20,8 @@ public class VoxListManager : MonoBehaviour
 
     void Start()
     {
-        PopulateVoxList();
         PopulatePlyList();
-    }
-
-    public void PopulateVoxList()
-    {
-        // Clear existing buttons
-        foreach (Transform child in contentParent)
-        {
-            Destroy(child.gameObject);
-        }
-
-        // Build folder path
-        string voxFolder = Path.Combine(Application.persistentDataPath, voxDirectoryName);
-
-        if (!Directory.Exists(voxFolder))
-        {
-            Debug.LogWarning($"Vox folder not found: {voxFolder}");
-            return;
-        }
-
-        // Find .vox files
-        string[] files = Directory.GetFiles(voxFolder, "*.vox");
-
-        // Instantiate a button per file
-        foreach (string fullPath in files)
-        {
-            string fileName = Path.GetFileName(fullPath);
-
-            var buttonGO = Instantiate(buttonPrefab, contentParent);
-            buttonGO.GetComponentInChildren<TMP_Text>().text = fileName;
-
-            // Capture the path for the listener
-            string selectedPath = fullPath;
-            buttonGO.GetComponent<Button>().onClick.AddListener(() =>
-            {
-                LoadVoxel(selectedPath);
-            });
-        }
+        PopulateVoxList();
     }
 
     public void PopulatePlyList()
@@ -92,7 +57,7 @@ public class VoxListManager : MonoBehaviour
 
                 // Add required components
                 var renderer = tempGO.AddComponent<PointCloudRenderer>();
-                var converter = tempGO.AddComponent<ComputeBufferToVox>();
+                var converter = tempGO.AddComponent<ConvertToVox>();
 
                 // Load .ply data into the PointCloudRenderer
                 renderer.sourceData = PlyImporterRuntime.Load(plyPath);
@@ -106,11 +71,110 @@ public class VoxListManager : MonoBehaviour
         }
     }
 
-    // For calling the Cubizer
-    void LoadVoxel(string path)
+    public void PopulateVoxList()
     {
-        // Call VOX loader here!
-        // VoxImporter.Load(path);
-        Debug.Log($"Loading VOX: {path}");
+        // Clear existing buttons
+        foreach (Transform child in contentParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // Build folder path
+        string voxFolder = Path.Combine(Application.persistentDataPath, voxDirectoryName);
+
+        if (!Directory.Exists(voxFolder))
+        {
+            Debug.LogWarning($"Vox folder not found: {voxFolder}");
+            return;
+        }
+
+        // Find .vox files
+        string[] files = Directory.GetFiles(voxFolder, "*.vox");
+
+        // Instantiate a button per file
+        foreach (string fullPath in files)
+        {
+            string fileName = Path.GetFileName(fullPath);
+
+            var buttonGO = Instantiate(buttonPrefab, contentParent);
+            buttonGO.GetComponentInChildren<TMP_Text>().text = fileName;
+
+            // Capture the path for the listener
+            string selectedPath = fullPath;
+            buttonGO.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                LoadVoxel(selectedPath, 3); // LOD level 3
+            });
+        }
+    }
+
+    //Call Cubizer, and after that add needed attributes and change values.
+    [SerializeField] private Transform voxelParent; // VoxelParent
+    [SerializeField] private Material voxelMaterial; // Custom shader: Unlit_VertexColorURP
+
+    void LoadVoxel(string path, int lodLevel = 3)
+    {
+        // Clear previous voxel models
+        foreach (Transform child in voxelParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // Load the voxel model with LOD
+        GameObject voxelGO = VoxFileImport.LoadVoxelFileAsGameObjectLOD(path, lodLevel);
+
+        if (voxelGO == null)
+        {
+            Debug.LogError($"Failed to load voxel model from: {path}");
+            return;
+        }
+
+        // Parent it under voxelParent
+        voxelGO.transform.SetParent(voxelParent, false);
+
+        // Apply custom scale and position
+        voxelGO.transform.localScale = Vector3.one * 0.3f; // Might need down scaling
+        voxelGO.transform.localPosition = Vector3.zero;
+
+        // Apply custom shader to all LOD meshes
+        var meshRenderers = voxelGO.GetComponentsInChildren<MeshRenderer>();
+        foreach (var renderer in meshRenderers)
+        {
+            renderer.material = voxelMaterial;
+        }
+
+        // Disable LOD Group
+        var lodGroup = voxelGO.GetComponent<LODGroup>();
+        if (lodGroup != null)
+        {
+            lodGroup.enabled = false;
+        }
+
+        // Add mesh collider to the third LOD
+        if (lodGroup != null)
+        {
+            lodGroup.enabled = false;
+
+            var lods = lodGroup.GetLODs();
+            if (lods.Length >= 3)
+            {
+                var thirdLODRenderer = lods[2].renderers.FirstOrDefault();
+                if (thirdLODRenderer != null)
+                {
+                    var meshFilter = thirdLODRenderer.GetComponent<MeshFilter>();
+                    if (meshFilter != null && meshFilter.sharedMesh != null)
+                    {
+                        var colliderGO = thirdLODRenderer.gameObject;
+                        var meshCollider = colliderGO.AddComponent<MeshCollider>();
+                        meshCollider.sharedMesh = meshFilter.sharedMesh;
+                        meshCollider.convex = false; // Set to true for dynamic physics
+                        meshCollider.providesContacts = true;
+                        Debug.Log("MeshCollider added to third LOD.");
+                    }
+                }
+            }
+        }
+
+        Debug.Log($"Loaded and customized voxel model: {path}");
     }
 }

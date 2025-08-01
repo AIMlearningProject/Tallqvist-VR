@@ -1,5 +1,6 @@
 using Cubizer.Model;
 using Pcx;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,13 +10,13 @@ using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(PointCloudRenderer))]
-public class ComputeBufferToVox : MonoBehaviour
+public class ConvertToVox : MonoBehaviour
 {
     private PointCloudData pointCloud;
-    public float voxelSize = 0.2f;
+    public float voxelSize = 0.12f;
 
-    [Header("Export Settings")]
-    public string fileName = "Generated.vox";
+    private string fileName;
+    private string timestamp;
 
     public void ConvertToVoxels()
     {
@@ -71,6 +72,9 @@ public class ComputeBufferToVox : MonoBehaviour
         Debug.Log($"Voxelized: {voxData.voxels.Length} voxels");
 
         // Export
+        timestamp = DateTime.Now.ToString("dd_HHmmss");
+        fileName = $"voxel_{timestamp}.vox";
+
         Vector3Int bounds = ComputeModelBounds(voxData.voxels.ToList());
 
         string folder = Path.Combine(Application.persistentDataPath, "VoxExports");
