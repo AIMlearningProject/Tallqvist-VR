@@ -17,7 +17,7 @@ public static class Voxelizer
             return null;
         }
 
-        // Compute bounds
+        // Compute bounds.
         Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
         Vector3 max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
         foreach (var v in vertices)
@@ -33,7 +33,7 @@ public static class Voxelizer
         int sizeZ = Mathf.Clamp(Mathf.CeilToInt(dims.z / voxelSize), 1, 256);
         Debug.Log($"[Voxelizer] Bounds: Min={min}, Max={max}, GridSize=({sizeX},{sizeY},{sizeZ})");
 
-        // Set up maps and palette
+        // Set up maps and palette.
         var voxelMap = new Dictionary<Vector3Int, byte>();
         var colorToIndex = new Dictionary<Color32, byte>();
         var palette = new Color32[256];
@@ -105,7 +105,7 @@ public static class Voxelizer
         if (skippedOut > 0)
             Debug.LogWarning($"Skipped {skippedOut} voxels out of bounds.");
 
-        // Convert to flat array
+        // Convert to flat array.
         var voxels = voxelMap
     .Where(kvp => kvp.Value != 0)
     .Select(kvp => {

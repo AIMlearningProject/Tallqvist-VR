@@ -1,2 +1,16 @@
 fileFormatVersion: 2
 guid: 05bc04e1da7e1bf488ccc41c6cc2eac6
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - contentParent: {instanceID: 0}
+  - buttonPrefab: {instanceID: 0}
+  - plyContentParent: {instanceID: 0}
+  - voxelParent: {instanceID: 0}
+  - voxelMaterial: {fileID: 2100000, guid: d906488b39643354897fa616d82c762c, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

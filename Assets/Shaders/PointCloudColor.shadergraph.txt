@@ -1,0 +1,117 @@
+{
+  "fileVersion": 2,
+  "serializedVersion": "2",
+  "m_Guid": "00000000000000000000000000000000",
+  "m_Path": "",
+  "m_EditorData": {
+    "m_Name": "PointCloudColor",
+    "m_Category": "",
+    "m_DefaultPrecision": "Float",
+    "m_PreviewMode": "Shaded",
+    "m_Target": "UniversalRenderPipelineUnlitSubTarget",
+    "m_SerializationType": "JSON",
+    "m_SubGraphGUIDs": [],
+    "m_Keywords": [],
+    "m_ActiveTarget": "UniversalRenderPipeline",
+    "m_ActiveSubTarget": "UniversalRenderPipelineUnlitSubTarget",
+    "m_IsSubGraph": false,
+    "m_GraphPrecision": "Float"
+  },
+  "m_Properties": [
+    {
+      "name": "_Tint",
+      "displayName": "Tint",
+      "type": "Color",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "overrideReferenceName": "_Tint",
+      "precision": "Float",
+      "isExposed": true,
+      "isHidden": false,
+      "isKeyword": false,
+      "defaultValue": {
+        "mode": "Default"
+      }
+    }
+  ],
+  "m_Nodes": [
+    {
+      "type": "ShaderGraph.VertexColor",
+      "name": "Vertex Color",
+      "guid": "a1135170-e83f-4c15-9c7b-59f12431e3e0",
+      "position": {
+        "x": -200,
+        "y": 0
+      }
+    },
+    {
+      "type": "ShaderGraph.Color",
+      "name": "Tint",
+      "guid": "3c47dd3d-95c9-4ed1-ae6e-8b8e2f2bbde7",
+      "position": {
+        "x": -200,
+        "y": 150
+      },
+      "color": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "mode": "Default",
+      "precision": "Float",
+      "exposed": true,
+      "overrideReferenceName": "_Tint"
+    },
+    {
+      "type": "ShaderGraph.Multiply",
+      "name": "Multiply",
+      "guid": "bd17b738-7760-45fd-b394-86a90582e7b6",
+      "position": {
+        "x": 100,
+        "y": 50
+      }
+    },
+    {
+      "type": "ShaderGraph.UnlitMasterNode",
+      "name": "Unlit Master",
+      "guid": "e0b2ec95-92a3-4d25-9a47-6e5fa0c6a0cf",
+      "position": {
+        "x": 300,
+        "y": 50
+      },
+      "inputs": {
+        "Color": {
+          "guid": "bd17b738-7760-45fd-b394-86a90582e7b6",
+          "portName": "Out"
+        }
+      }
+    }
+  ],
+  "m_Connections": [
+    {
+      "from": {
+        "guid": "a1135170-e83f-4c15-9c7b-59f12431e3e0",
+        "portName": "Out"
+      },
+      "to": {
+        "guid": "bd17b738-7760-45fd-b394-86a90582e7b6",
+        "portName": "A"
+      }
+    },
+    {
+      "from": {
+        "guid": "3c47dd3d-95c9-4ed1-ae6e-8b8e2f2bbde7",
+        "portName": "Out"
+      },
+      "to": {
+        "guid": "bd17b738-7760-45fd-b394-86a90582e7b6",
+        "portName": "B"
+      }
+    }
+  ]
+}

@@ -10,7 +10,7 @@ public class Voxel
 public class VoxData
 {
     public Voxel[] voxels;
-    public Color32[] palette; // Fixed length, 256 colors
+    public Color32[] palette; // Fixed length, 256 colors.
     public int sizeX, sizeY, sizeZ;
 
     public VoxData(Voxel[] voxels, Color32[] palette, int sx, int sy, int sz)

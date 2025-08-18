@@ -2,15 +2,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
+using System.Linq;
 using Pcx;
 using Cubizer.Model;
-using System.Linq;
 
 public class VoxListManager : MonoBehaviour
 {
     [Header("UI References")]
     public RectTransform contentParent;    // ScrollView content (VoxelList)
-    public GameObject buttonPrefab;        // Prefab Button (importButton)
+    public GameObject buttonPrefab;        // ImportBtn
 
     public RectTransform plyContentParent; // Scrollview content (PlyList)
     public string plyDirectoryName = "PlyFiles";
@@ -26,7 +26,7 @@ public class VoxListManager : MonoBehaviour
 
     public void PopulatePlyList()
     {
-        // Clear existing buttons
+        // Clear existing buttons.
         foreach (Transform child in plyContentParent)
         {
             Destroy(child.gameObject);
@@ -54,18 +54,19 @@ public class VoxListManager : MonoBehaviour
             {
                 // Create a temporary GameObject
                 GameObject tempGO = new GameObject("PointCloudConverter");
-
-                // Add required components
                 var renderer = tempGO.AddComponent<PointCloudRenderer>();
                 var converter = tempGO.AddComponent<ConvertToVox>();
 
                 // Load .ply data into the PointCloudRenderer
-                renderer.sourceData = PlyImporterRuntime.Load(plyPath);
-
-                // Start the conversion
+                var data = PlyImporterRuntime.Load(plyPath);
+                if (data == null)
+                {
+                    Debug.LogError("Failed to load point cloud data.");
+                    Destroy(tempGO);
+                    return;
+                }
+                renderer.sourceData = data;
                 converter.ConvertToVoxels();
-
-                // Update the VoxList
                 PopulateVoxList();
             });
         }
@@ -73,13 +74,13 @@ public class VoxListManager : MonoBehaviour
 
     public void PopulateVoxList()
     {
-        // Clear existing buttons
+        // Clear existing buttons.
         foreach (Transform child in contentParent)
         {
             Destroy(child.gameObject);
         }
 
-        // Build folder path
+        // Build folder path.
         string voxFolder = Path.Combine(Application.persistentDataPath, voxDirectoryName);
 
         if (!Directory.Exists(voxFolder))
@@ -88,10 +89,10 @@ public class VoxListManager : MonoBehaviour
             return;
         }
 
-        // Find .vox files
+        // Find .vox files.
         string[] files = Directory.GetFiles(voxFolder, "*.vox");
 
-        // Instantiate a button per file
+        // Instantiate a button per file.
         foreach (string fullPath in files)
         {
             string fileName = Path.GetFileName(fullPath);
@@ -99,7 +100,7 @@ public class VoxListManager : MonoBehaviour
             var buttonGO = Instantiate(buttonPrefab, contentParent);
             buttonGO.GetComponentInChildren<TMP_Text>().text = fileName;
 
-            // Capture the path for the listener
+            // Capture the path for the listener.
             string selectedPath = fullPath;
             buttonGO.GetComponent<Button>().onClick.AddListener(() =>
             {
@@ -108,19 +109,18 @@ public class VoxListManager : MonoBehaviour
         }
     }
 
-    //Call Cubizer, and after that add needed attributes and change values.
     [SerializeField] private Transform voxelParent; // VoxelParent
-    [SerializeField] private Material voxelMaterial; // Custom shader: Unlit_VertexColorURP
+    [SerializeField] private Material voxelMaterial; // uusin (Point Cloud/Point)
 
     void LoadVoxel(string path, int lodLevel = 3)
     {
-        // Clear previous voxel models
+        // Clear previous voxel models.
         foreach (Transform child in voxelParent)
         {
             Destroy(child.gameObject);
         }
 
-        // Load the voxel model with LOD
+        // Load the voxel model with LOD.
         GameObject voxelGO = VoxFileImport.LoadVoxelFileAsGameObjectLOD(path, lodLevel);
 
         if (voxelGO == null)
@@ -129,28 +129,49 @@ public class VoxListManager : MonoBehaviour
             return;
         }
 
-        // Parent it under voxelParent
+        // Parent it under voxelParent.
         voxelGO.transform.SetParent(voxelParent, false);
 
-        // Apply custom scale and position
-        voxelGO.transform.localScale = Vector3.one * 0.3f; // Might need down scaling
+        // Apply custom scale and position.
+        voxelGO.transform.localScale = Vector3.one * 1f; // Might need down scaling
         voxelGO.transform.localPosition = Vector3.zero;
 
-        // Apply custom shader to all LOD meshes
+        // Fallback material.
+        Material materialToUse = voxelMaterial;
+
+        if (materialToUse == null || materialToUse.shader == null)
+        {
+            Debug.LogWarning("[VOX] voxelMaterial is missing or invalid. Creating fallback blue material...");
+
+            Shader fallbackShader = Shader.Find("Universal Render Pipeline/Unlit");
+            if (fallbackShader == null)
+            {
+                Debug.LogError("[VOX] Fallback shader not found. Model may render pink.");
+            }
+            else
+            {
+                materialToUse = new Material(fallbackShader);
+                materialToUse.name = "FallbackBlueMaterial";
+                materialToUse.color = Color.blue;
+                Debug.Log("[VOX] Fallback blue material created.");
+            }
+        }
+
+        // Apply material to all renderers.
         var meshRenderers = voxelGO.GetComponentsInChildren<MeshRenderer>();
         foreach (var renderer in meshRenderers)
         {
-            renderer.material = voxelMaterial;
+            renderer.sharedMaterial = materialToUse;
         }
 
-        // Disable LOD Group
+        // Disable LOD Group.
         var lodGroup = voxelGO.GetComponent<LODGroup>();
         if (lodGroup != null)
         {
             lodGroup.enabled = false;
         }
 
-        // Add mesh collider to the third LOD
+        // Add mesh collider to the third LOD.
         if (lodGroup != null)
         {
             lodGroup.enabled = false;
@@ -167,7 +188,7 @@ public class VoxListManager : MonoBehaviour
                         var colliderGO = thirdLODRenderer.gameObject;
                         var meshCollider = colliderGO.AddComponent<MeshCollider>();
                         meshCollider.sharedMesh = meshFilter.sharedMesh;
-                        meshCollider.convex = false; // Set to true for dynamic physics
+                        meshCollider.convex = false;
                         meshCollider.providesContacts = true;
                         Debug.Log("MeshCollider added to third LOD.");
                     }

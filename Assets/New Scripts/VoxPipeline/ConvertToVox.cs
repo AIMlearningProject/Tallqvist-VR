@@ -13,8 +13,9 @@ using UnityEngine;
 public class ConvertToVox : MonoBehaviour
 {
     private PointCloudData pointCloud;
-    public float voxelSize = 0.12f;
+    public float voxelSize = 2f;
 
+    [Header("Export Settings")]
     private string fileName;
     private string timestamp;
 
@@ -36,7 +37,7 @@ public class ConvertToVox : MonoBehaviour
 
     IEnumerator ProcessPointCloud()
     {
-        // Wait until the computeBuffer is ready
+        // Wait until the computeBuffer is ready.
         while (pointCloud == null || pointCloud.computeBuffer == null || pointCloud.pointCount == 0)
         {
             yield return new WaitForSeconds(0.1f);
@@ -61,7 +62,7 @@ public class ConvertToVox : MonoBehaviour
                 Debug.Log($"Point {i}: pos={pos}, color={col}");
         }
 
-        // Voxelize
+        // Voxelize.
         VoxData voxData = Voxelizer.CreateVoxData(vertices, voxelSize);
         if (voxData == null || voxData.voxels.Length == 0)
         {
@@ -71,11 +72,11 @@ public class ConvertToVox : MonoBehaviour
 
         Debug.Log($"Voxelized: {voxData.voxels.Length} voxels");
 
-        // Export
+        // Export.
+        Vector3Int bounds = ComputeModelBounds(voxData.voxels.ToList());
+
         timestamp = DateTime.Now.ToString("dd_HHmmss");
         fileName = $"voxel_{timestamp}.vox";
-
-        Vector3Int bounds = ComputeModelBounds(voxData.voxels.ToList());
 
         string folder = Path.Combine(Application.persistentDataPath, "VoxExports");
         Directory.CreateDirectory(folder);

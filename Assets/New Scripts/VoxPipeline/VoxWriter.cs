@@ -40,7 +40,7 @@ public static class VoxWriter
             voxelColorMap[cell].Add(new Color32(v.r, v.g, v.b, 255));
         }
 
-        // Assign averaged colors to voxels
+        // Assign averaged colors to voxels.
         var palette = BuildPalette332();
         var averagedVoxels = new List<Voxel>();
 
