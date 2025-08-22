@@ -13,6 +13,7 @@ public class OpenMenu : MonoBehaviour
     public GameObject convertPanel;
     public GameObject instructionsPanel;
     public GameObject VoxObjPanel;
+    public GameObject QuadPanel;
 
     private InputDevice leftController;
 
@@ -60,6 +61,10 @@ public class OpenMenu : MonoBehaviour
         {
             VoxObjPanel.SetActive(false);
         }
+        if (QuadPanel != null && QuadPanel.activeSelf)
+        {
+            QuadPanel.SetActive(false);
+        }
     }
 
     // Funktio "Lataa scene napille", lis‰t‰‰n nappin on click eventtiin kutsuttavaksi.
@@ -70,6 +75,7 @@ public class OpenMenu : MonoBehaviour
         convertPanel.SetActive(false);
         instructionsPanel.SetActive(false);
         VoxObjPanel.SetActive(false);
+        QuadPanel.SetActive(false);
     }
 
     public void OpenImportMenu()
@@ -79,6 +85,7 @@ public class OpenMenu : MonoBehaviour
         convertPanel.SetActive(false);
         instructionsPanel.SetActive(false);
         VoxObjPanel.SetActive(false);
+        QuadPanel.SetActive(false);
     }
 
     public void OpenConvertMenu()
@@ -88,11 +95,23 @@ public class OpenMenu : MonoBehaviour
         loadPanel.SetActive(false);
         instructionsPanel.SetActive(false);
         VoxObjPanel.SetActive(false);
+        QuadPanel.SetActive(false);
     }
 
     public void OpenVoxObjMenu()
     {
         VoxObjPanel.SetActive(true);
+        convertPanel.SetActive(false);
+        importPanel.SetActive(false);
+        loadPanel.SetActive(false);
+        instructionsPanel.SetActive(false);
+        QuadPanel.SetActive(false);
+    }
+
+    public void OpenQuadMenu()
+    {
+        QuadPanel.SetActive(true);
+        VoxObjPanel.SetActive(false);
         convertPanel.SetActive(false);
         importPanel.SetActive(false);
         loadPanel.SetActive(false);

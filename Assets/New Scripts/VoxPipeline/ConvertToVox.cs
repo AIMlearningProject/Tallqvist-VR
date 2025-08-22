@@ -13,7 +13,7 @@ using UnityEngine;
 public class ConvertToVox : MonoBehaviour
 {
     private PointCloudData pointCloud;
-    public float voxelSize = 2f;
+    public float voxelSize = 1f;
 
     [Header("Export Settings")]
     private string fileName;

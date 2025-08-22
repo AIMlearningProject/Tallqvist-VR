@@ -6,6 +6,9 @@ using System.Linq;
 using Pcx;
 using Cubizer.Model;
 
+/* Populates a list of point clouds from which the desired point cloud can be converted to Voxels.
+Also populates another list with the converted Voxels from which the Voxels can be loaded. */
+
 public class VoxListManager : MonoBehaviour
 {
     [Header("UI References")]

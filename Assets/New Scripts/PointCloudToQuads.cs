@@ -1,17 +1,19 @@
 using UnityEngine;
 using Pcx;
 
-// Pcx import .ply with container type ComputeBuffer.
-// Use a PointCloudData made by Pcx to make quads of the points. Quad size can be changed.
-// Works for pointclouds with around 300K points, if rendering both sides of the quad.
+/* RuntimeImporter has problems with colors!!!
+ Older editor version used Pcx import .ply with container type ComputeBuffer. 
+ Use a PointCloudData made by Pcx to make quads of the points. Quad size can be changed.
+ With Quest 2: Works for pointclouds with around 300K points, if rendering both sides of the quad. */
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class PointCloudToQuadMesh : MonoBehaviour
 {
     public PointCloudData pointCloud;
-    public float quadSize = 0.01f;
+    public float quadSize = 0.8f;
+    public Material quadMaterial;
 
-    void Start()
+    public void ConvertToQuads()
     {
         if (pointCloud == null || pointCloud.pointCount == 0)
         {
@@ -78,6 +80,10 @@ public class PointCloudToQuadMesh : MonoBehaviour
         mesh.RecalculateBounds();
 
         GetComponent<MeshFilter>().mesh = mesh;
+
+        var meshRenderer = GetComponent<MeshRenderer>();
+        if (quadMaterial != null)
+            meshRenderer.sharedMaterial = quadMaterial;
     }
 
     Color DecodeColor(uint rgba)
