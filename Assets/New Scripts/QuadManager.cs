@@ -60,7 +60,7 @@ public class QuadManager : MonoBehaviour
                 currentRenderGO = new GameObject("PointCloudConverter");
 
                 // Set custom transform.
-                currentRenderGO.transform.position = new Vector3(-700f, -5f, 50f);
+                currentRenderGO.transform.position = new Vector3(0f, 7.5f, 180f);
                 currentRenderGO.transform.rotation = Quaternion.Euler(-90f, 0f, -180f);
                 currentRenderGO.transform.localScale = new Vector3(-1f, 1f, 1f);
 
@@ -84,13 +84,13 @@ public class QuadManager : MonoBehaviour
                 quadMesh.ConvertToQuads();
 
                 // Add collider. (Not very practical at the moment.)
-                /*var mf = currentRenderGO.GetComponent<MeshFilter>();
+                var mf = currentRenderGO.GetComponent<MeshFilter>();
                 if (mf != null && mf.mesh != null)
                 {
                     var col = currentRenderGO.AddComponent<MeshCollider>();
                     col.sharedMesh = mf.mesh;
                     col.convex = false;
-                }*/
+                }
             });
         }
     }

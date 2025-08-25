@@ -172,6 +172,16 @@ public class VoxListManager : MonoBehaviour
         if (lodGroup != null)
         {
             lodGroup.enabled = false;
+
+            var lods = lodGroup.GetLODs();
+
+            // Disable LODs 0 and 1 by clearing their renderers.
+            if (lods.Length >= 2)
+            {
+                lods[0].renderers = new Renderer[0];
+                lods[1].renderers = new Renderer[0];
+                lodGroup.SetLODs(lods);
+            }
         }
 
         // Add mesh collider to the third LOD.

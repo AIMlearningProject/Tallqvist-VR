@@ -690,9 +690,9 @@ MonoBehaviour:
   m_Mediator: {fileID: 6640002710935096923}
   m_TransformationPriority: 0
   m_MoveSpeed: 2.5
+  m_InAirControlModifier: 0.5
   m_EnableStrafe: 1
   m_EnableFly: 0
-  m_UseGravity: 1
   m_ForwardSource: {fileID: 1767192434}
   m_LeftHandMoveInput:
     m_InputSourceMode: 2
@@ -722,6 +722,7 @@ MonoBehaviour:
     m_InputActionReference: {fileID: -8198699208435500284, guid: c348712bda248c246b8c49b3db54643f, type: 3}
     m_ObjectReferenceObject: {fileID: 0}
     m_ManualValue: {x: 0, y: 0}
+  m_UseGravity: 1
   m_HeadTransform: {fileID: 1767192434}
   m_LeftControllerTransform: {fileID: 202364688}
   m_RightControllerTransform: {fileID: 1670256625}
@@ -822,6 +823,8 @@ MonoBehaviour:
   m_Mediator: {fileID: 6640002710935096923}
   m_TransformationPriority: 0
   m_TurnSpeed: 60
+  m_EnableTurnLeftRight: 1
+  m_EnableTurnAround: 0
   m_LeftHandTurnInput:
     m_InputSourceMode: 2
     m_InputAction:
@@ -1125,6 +1128,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Mediator: {fileID: 6640002710935096923}
   m_TransformationPriority: 0
+  m_ProvidersToDisable: []
+  m_EnableGravityOnClimbEnd: 1
   m_ClimbSettings:
     m_UseConstant: 1
     m_ConstantValue:
@@ -1233,8 +1238,8 @@ MonoBehaviour:
   m_EnableFreeXMovement: 1
   m_EnableFreeYMovement: 0
   m_EnableFreeZMovement: 1
-  m_UseGravity: 1
   m_GravityApplicationMode: 0
+  m_UseGravity: 1
   m_ControllerTransform: {fileID: 202364688}
   m_EnableMoveWhileSelecting: 0
   m_MoveFactor: 1
@@ -1297,8 +1302,8 @@ MonoBehaviour:
   m_EnableFreeXMovement: 1
   m_EnableFreeYMovement: 0
   m_EnableFreeZMovement: 1
-  m_UseGravity: 1
   m_GravityApplicationMode: 0
+  m_UseGravity: 1
   m_ControllerTransform: {fileID: 1670256625}
   m_EnableMoveWhileSelecting: 0
   m_MoveFactor: 1
@@ -1361,8 +1366,8 @@ MonoBehaviour:
   m_EnableFreeXMovement: 1
   m_EnableFreeYMovement: 0
   m_EnableFreeZMovement: 1
-  m_UseGravity: 1
   m_GravityApplicationMode: 0
+  m_UseGravity: 1
   m_LeftGrabMoveProvider: {fileID: 2032798983271290625}
   m_RightGrabMoveProvider: {fileID: 4083252680172266230}
   m_OverrideSharedSettingsOnInit: 1
@@ -1820,6 +1825,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2761784063978902504, guid: 70919ea80a3ad5d49b534d9c3139271d, type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761784063978902504, guid: 70919ea80a3ad5d49b534d9c3139271d, type: 3}
       propertyPath: m_Parameters.numCornerVertices
       value: 4
       objectReference: {fileID: 0}
@@ -1912,10 +1921,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 202364688}
     m_Modifications:
-    - target: {fileID: 6102213085606525114, guid: 27024f5809f4a4347b9cd7f26a1bdf93, type: 3}
-      propertyPath: m_CurveInteractionDataProvider
-      value: 
-      objectReference: {fileID: 8877177980677234388}
     - target: {fileID: 780270278251679399, guid: e9591f5dd5073ac409921e1a7ec6079f, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1968,6 +1973,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 6102213085606525114, guid: 27024f5809f4a4347b9cd7f26a1bdf93, type: 3}
+      propertyPath: m_CurveInteractionDataProvider
+      value: 
+      objectReference: {fileID: 8877177980677234388}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -2010,10 +2019,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 202364688}
     m_Modifications:
-    - target: {fileID: 3448426214904589657, guid: c1800acf6366418a9b5f610249000331, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2761784063978902503, guid: 70919ea80a3ad5d49b534d9c3139271d, type: 3}
       propertyPath: m_Handedness
       value: 1
@@ -2061,6 +2066,10 @@ PrefabInstance:
     - target: {fileID: 2761784063978902504, guid: 70919ea80a3ad5d49b534d9c3139271d, type: 3}
       propertyPath: m_Parameters.numCapVertices
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761784063978902504, guid: 70919ea80a3ad5d49b534d9c3139271d, type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 2761784063978902504, guid: 70919ea80a3ad5d49b534d9c3139271d, type: 3}
       propertyPath: m_Parameters.numCornerVertices
@@ -2126,6 +2135,10 @@ PrefabInstance:
       propertyPath: m_HapticImpulsePlayer
       value: 
       objectReference: {fileID: 5967689310316253315}
+    - target: {fileID: 3448426214904589657, guid: c1800acf6366418a9b5f610249000331, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
