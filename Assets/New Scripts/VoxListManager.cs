@@ -167,21 +167,23 @@ public class VoxListManager : MonoBehaviour
             renderer.sharedMaterial = materialToUse;
         }
 
-        // Disable LOD Group.
+        // Disable LOD Group and renderers in LOD0 and LOD1.
         var lodGroup = voxelGO.GetComponent<LODGroup>();
         if (lodGroup != null)
         {
-            lodGroup.enabled = false;
-
             var lods = lodGroup.GetLODs();
-
-            // Disable LODs 0 and 1 by clearing their renderers.
-            if (lods.Length >= 2)
+            for (int i = 0; i < Mathf.Min(2, lods.Length); i++)
             {
-                lods[0].renderers = new Renderer[0];
-                lods[1].renderers = new Renderer[0];
-                lodGroup.SetLODs(lods);
+                foreach (var renderer in lods[i].renderers)
+                {
+                    if (renderer != null && renderer.gameObject != null)
+                    {
+                        renderer.gameObject.SetActive(false);
+                        Debug.Log($"Disabled LOD{i} GameObject: {renderer.gameObject.name}");
+                    }
+                }
             }
+            lodGroup.enabled = false;
         }
 
         // Add mesh collider to the third LOD.

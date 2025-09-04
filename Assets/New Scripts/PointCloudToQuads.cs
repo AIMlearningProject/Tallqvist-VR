@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Pcx;
 
 /* RuntimeImporter has problems with colors!!!
@@ -101,4 +101,85 @@ public class PointCloudToQuadMesh : MonoBehaviour
 
         return new Color(r * scale, g * scale, b * scale, 1.0f);
     }
+
+
+    // Start method for editor usage and testing. Should get good colors with PCX components.
+    void Start()
+    {
+        if (pointCloud == null || pointCloud.pointCount == 0)
+        {
+            Debug.LogWarning("No point cloud data assigned or point count is 0.");
+            return;
+        }
+        Debug.Log($"PointCloudToQuadMesh.Start → using PointCloudData: '{pointCloud.name}' " +
+              $"({pointCloud.pointCount} points)");
+
+        // Read data from point cloud
+        var rawData = new Vector4[pointCloud.pointCount];
+        pointCloud.computeBuffer.GetData(rawData);
+        Debug.Log("First raw buffer point: " + rawData[0]);
+        int count = rawData.Length;
+
+        Vector3[] vertices = new Vector3[4 * count];
+        Color[] colors = new Color[4 * count];
+        int[] indices = new int[6 * count];
+
+        Camera cam = Camera.main;
+
+        for (int i = 0; i < count; i++)
+        {
+            int vi = i * 4;
+            int ti = i * 6;
+
+            Vector3 pos = new Vector3(rawData[i].x, rawData[i].y, rawData[i].z);
+            uint encodedColor = System.BitConverter.ToUInt32(System.BitConverter.GetBytes(rawData[i].w), 0);
+            Color col = DecodeColor(encodedColor);
+
+            // Face the camera
+            Vector3 toCamera = (cam.transform.position - pos).normalized;
+            Vector3 right = Vector3.Cross(Vector3.up, toCamera).normalized * quadSize * 0.5f;
+            Vector3 up = Vector3.Cross(toCamera, right).normalized * quadSize * 0.5f;
+
+            // Quad vertices around point
+            vertices[vi + 0] = pos - right - up;
+            vertices[vi + 1] = pos + right - up;
+            vertices[vi + 2] = pos + right + up;
+            vertices[vi + 3] = pos - right + up;
+
+            // Assign same color to all quad vertices
+            colors[vi + 0] = col;
+            colors[vi + 1] = col;
+            colors[vi + 2] = col;
+            colors[vi + 3] = col;
+
+            // Define two triangles per quad
+            indices[ti + 0] = vi + 0;
+            indices[ti + 1] = vi + 1;
+            indices[ti + 2] = vi + 2;
+            indices[ti + 3] = vi + 2;
+            indices[ti + 4] = vi + 3;
+            indices[ti + 5] = vi + 0;
+
+            if (i < 5)
+                Debug.Log($"Point {i}: pos={pos} encodedColor=0x{encodedColor:X8} decoded={col}");
+        }
+
+        // Build mesh
+        Mesh mesh = new Mesh();
+        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+        mesh.SetVertices(vertices);
+        mesh.SetColors(colors);
+        mesh.SetTriangles(indices, 0);
+        mesh.RecalculateBounds();
+
+        GetComponent<MeshFilter>().mesh = mesh;
+
+        //Possible to add collider, but it is bad.
+        /*var meshCollider = GetComponent<MeshCollider>();
+        if (meshCollider == null)
+            meshCollider = gameObject.AddComponent<MeshCollider>();
+
+        meshCollider.sharedMesh = mesh;*/
+    }
 }
+
