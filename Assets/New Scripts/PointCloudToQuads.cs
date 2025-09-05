@@ -175,11 +175,11 @@ public class PointCloudToQuadMesh : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
 
         //Possible to add collider, but it is bad.
-        /*var meshCollider = GetComponent<MeshCollider>();
+        var meshCollider = GetComponent<MeshCollider>();
         if (meshCollider == null)
             meshCollider = gameObject.AddComponent<MeshCollider>();
 
-        meshCollider.sharedMesh = mesh;*/
+        meshCollider.sharedMesh = mesh;
     }
 }
 

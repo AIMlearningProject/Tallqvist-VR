@@ -1,9 +1,16 @@
-using Pcx;
+﻿using Pcx;
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
 using System;
 using System.Text;
+
+// EDITOR TOOLS FOR RUNTIME USE!
+// 2 Versions, for actual runtime, and for "editor runtime".
+// UNCOMMENT a line at the end of this script AND inside PointCloudData according to the chosen use of the tools.
+
+// "editor runtime" version cannot be built to a app.
+// Actual buildable runtime version is not working 100%, atleast colors are bad. (wrong colors in a wrong order).
 
 public static class PlyImporterRuntime
 {
@@ -80,43 +87,60 @@ public static class PlyImporterRuntime
         return header;
     }
 
-    public static PlyBody ReadBody(PlyHeader header, BinaryReader reader)
+    public static void ReadBody(PlyHeader header, BinaryReader reader,
+    out List<Vector3> positions, out List<Color32> colors)
     {
-        var body = new PlyBody
-        {
-            vertices = new Vector3[header.vertexCount],
-            colors = new Color32[header.vertexCount]
-        };
+        positions = new List<Vector3>(header.vertexCount);
+        colors = new List<Color32>(header.vertexCount);
 
         for (int i = 0; i < header.vertexCount; i++)
         {
             float x = 0, y = 0, z = 0;
-            byte r = 255, g = 255, b = 255;
+            byte r = 255, g = 255, b = 255, a = 255;
+            byte intensity = 255;
 
             foreach (var prop in header.properties)
             {
                 switch (prop.name)
                 {
+                    // Positions
                     case "x": x = ReadFloat(prop.type, reader); break;
                     case "y": y = ReadFloat(prop.type, reader); break;
                     case "z": z = ReadFloat(prop.type, reader); break;
-                    case "red": r = ReadByte(prop.type, reader); break;
-                    case "green": g = ReadByte(prop.type, reader); break;
-                    case "blue": b = ReadByte(prop.type, reader); break;
+
+                    // Colors
+                    case "red":
+                    case "diffuse_red": r = ReadColorComponent(prop.type, reader); break;
+                    case "green":
+                    case "diffuse_green": g = ReadColorComponent(prop.type, reader); break;
+                    case "blue":
+                    case "diffuse_blue": b = ReadColorComponent(prop.type, reader); break;
+
+                    // Opacity/alpha
+                    case "alpha":
+                    case "opacity": a = ReadColorComponent(prop.type, reader); break;
+
+                    // Brightness/intensity
+                    case "intensity": intensity = ReadColorComponent(prop.type, reader); break;
+
                     default:
                         SkipProperty(prop.type, reader);
                         break;
                 }
             }
-
-            if (i < 5)
-                Debug.Log($"[Debug] Vertex {i}: x={x}, y={y}, z={z}, color=({r},{g},{b})");
-
-            body.vertices[i] = new Vector3(x, y, z);
-            body.colors[i] = new Color32(r, g, b, 255);
+            positions.Add(new Vector3(x, y, z));
+            colors.Add(new Color32(r, g, b, a));
         }
+    }
 
-        return body;
+    private static byte ReadColorComponent(string type, BinaryReader reader)
+    {
+        return type switch
+        {
+            "float" => (byte)Mathf.Clamp(reader.ReadSingle() * 255f, 0, 255),
+            "double" => (byte)Mathf.Clamp((float)reader.ReadDouble() * 255f, 0, 255),
+            _ => ReadByte(type, reader)
+        };
     }
 
     private static float ReadFloat(string type, BinaryReader reader)
@@ -187,23 +211,78 @@ public static class PlyImporterRuntime
     {
         using var fs = File.OpenRead(filePath);
 
-        // Parse header, get its length in bytes
+        // Parse header and get its length in bytes.
         long headerByteCount;
         var header = ReadHeader(fs, out headerByteCount);
 
         if (!header.isBinary)
             throw new NotSupportedException("Only binary_little_endian PLY is supported.");
 
-        // Seek to the first data byte
+        // Seek to the first data byte.
         fs.Seek(headerByteCount, SeekOrigin.Begin);
 
-        // Read the binary body
-        using var br = new BinaryReader(fs, Encoding.ASCII, leaveOpen: true);
-        var body = ReadBody(header, br);
+        // Read the binary body.
+        using var br = new BinaryReader(fs, System.Text.Encoding.ASCII, leaveOpen: true);
 
-        // Create the ScriptableObject
+        // Prepare lists for positions and colors.
+        var positions = new List<Vector3>(header.vertexCount);
+        var colors = new List<Color32>(header.vertexCount);
+
+        // Read every vertex
+        for (int i = 0; i < header.vertexCount; i++)
+        {
+            float px = 0, py = 0, pz = 0;
+            byte r = 255, g = 255, b = 255;
+            byte intensity = 255;  // Will become alpha.
+
+            // Pull in each PLY property.
+            foreach (var prop in header.properties)
+            {
+                switch (prop.name)
+                {
+                    // Position
+                    case "x": px = ReadFloat(prop.type, br); break;
+                    case "y": py = ReadFloat(prop.type, br); break;
+                    case "z": pz = ReadFloat(prop.type, br); break;
+
+                    // Raw colour channels
+                    case "red":
+                    case "diffuse_red": r = ReadColorComponent(prop.type, br); break;
+                    case "green":
+                    case "diffuse_green": g = ReadColorComponent(prop.type, br); break;
+                    case "blue":
+                    case "diffuse_blue": b = ReadColorComponent(prop.type, br); break;
+
+                    // Opacity
+                    case "alpha":
+                    case "opacity": br.ReadByte(); /*discard*/           break;
+
+                    // Brightness / intensity → alpha.
+                    case "intensity": intensity = ReadColorComponent(prop.type, br); break;
+
+                    // Anything else, skip its bytes.
+                    default:
+                        SkipProperty(prop.type, br);
+                        break;
+                }
+            }
+
+            // Store raw data: r,g,b are colours, alpha= intensity.
+            positions.Add(new Vector3(px, py, pz));
+            colors.Add(new Color32(r, g, b, intensity));
+        }
+
+        // Debug first few entries to confirm the raw RGBA.
+        for (int i = 0; i < Mathf.Min(5, colors.Count); i++)
+        {
+            var c = colors[i];
+            Debug.Log($"[PLY→PCX Debug] #{i} pos={positions[i]}  RGBA=({c.r},{c.g},{c.b},{c.a})");
+        }
+
+        // Create the PointCloudData asset and pack it.
         var data = ScriptableObject.CreateInstance<PointCloudData>();
-        data.SetPointData(body.vertices, body.colors); // Testing with different color approaches.
+        //data.SetPointData(positions.ToArray(), colors.ToArray());                             // UNCOMMENT FOR ACTUAL RUNTIME TOOL USE!
+        //data.InitializeRuntime(positions, colors);                                            // UNCOMMENT FOR EDITOR USE OF "RUNTIME" TOOLS!
         data.name = Path.GetFileNameWithoutExtension(filePath);
         return data;
     }
