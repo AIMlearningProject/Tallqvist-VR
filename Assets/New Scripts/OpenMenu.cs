@@ -12,8 +12,9 @@ public class OpenMenu : MonoBehaviour
     public GameObject importPanel;
     public GameObject convertPanel;
     public GameObject instructionsPanel;
-    public GameObject VoxObjPanel;
-    public GameObject QuadPanel;
+    public GameObject voxObjPanel;
+    public GameObject quadPanel;
+    public GameObject blueprintPanel;
 
     private InputDevice leftController;
 
@@ -57,13 +58,17 @@ public class OpenMenu : MonoBehaviour
         {
             convertPanel.SetActive(false);
         }
-        if (VoxObjPanel != null && VoxObjPanel.activeSelf)
+        if (voxObjPanel != null && voxObjPanel.activeSelf)
         {
-            VoxObjPanel.SetActive(false);
+            voxObjPanel.SetActive(false);
         }
-        if (QuadPanel != null && QuadPanel.activeSelf)
+        if (quadPanel != null && quadPanel.activeSelf)
         {
-            QuadPanel.SetActive(false);
+            quadPanel.SetActive(false);
+        }
+        if (blueprintPanel != null && blueprintPanel.activeSelf)
+        {
+            blueprintPanel.SetActive(false);
         }
     }
 
@@ -74,8 +79,9 @@ public class OpenMenu : MonoBehaviour
         importPanel.SetActive(false);
         convertPanel.SetActive(false);
         instructionsPanel.SetActive(false);
-        VoxObjPanel.SetActive(false);
-        QuadPanel.SetActive(false);
+        voxObjPanel.SetActive(false);
+        quadPanel.SetActive(false);
+        blueprintPanel.SetActive(false);
     }
 
     public void OpenImportMenu()
@@ -84,8 +90,9 @@ public class OpenMenu : MonoBehaviour
         loadPanel.SetActive(false);
         convertPanel.SetActive(false);
         instructionsPanel.SetActive(false);
-        VoxObjPanel.SetActive(false);
-        QuadPanel.SetActive(false);
+        voxObjPanel.SetActive(false);
+        quadPanel.SetActive(false);
+        blueprintPanel.SetActive(false);
     }
 
     public void OpenConvertMenu()
@@ -94,24 +101,38 @@ public class OpenMenu : MonoBehaviour
         importPanel.SetActive(false);
         loadPanel.SetActive(false);
         instructionsPanel.SetActive(false);
-        VoxObjPanel.SetActive(false);
-        QuadPanel.SetActive(false);
+        voxObjPanel.SetActive(false);
+        quadPanel.SetActive(false);
+        blueprintPanel.SetActive(false);
     }
 
     public void OpenVoxObjMenu()
     {
-        VoxObjPanel.SetActive(true);
+        voxObjPanel.SetActive(true);
         convertPanel.SetActive(false);
         importPanel.SetActive(false);
         loadPanel.SetActive(false);
         instructionsPanel.SetActive(false);
-        QuadPanel.SetActive(false);
+        quadPanel.SetActive(false);
+        blueprintPanel.SetActive(false);
     }
 
     public void OpenQuadMenu()
     {
-        QuadPanel.SetActive(true);
-        VoxObjPanel.SetActive(false);
+        quadPanel.SetActive(true);
+        voxObjPanel.SetActive(false);
+        convertPanel.SetActive(false);
+        importPanel.SetActive(false);
+        loadPanel.SetActive(false);
+        instructionsPanel.SetActive(false);
+        blueprintPanel.SetActive(false);
+    }
+
+    public void OpenBlueprintMenu()
+    {
+        blueprintPanel.SetActive(true);
+        quadPanel.SetActive(false);
+        voxObjPanel.SetActive(false);
         convertPanel.SetActive(false);
         importPanel.SetActive(false);
         loadPanel.SetActive(false);
