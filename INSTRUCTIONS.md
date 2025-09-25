@@ -35,6 +35,16 @@ After adjusting the scale, update the rotation.
 - **X-axis: -90°**
 - **Z-axis: 180°**
 
+Pre-edit Point Cloud
+--------------------
+
+Point cloud data can be edited in [CloudCompare]. For example, point cloud files in `.las` format can be exported to Unity as `.ply` files.
+
+Large point clouds can be **subsampled** to reduce their size using the `Subsample` tool. The number of points can also be reduced by cutting the point cloud into smaller sections to be used.
+
+**Important:** The **Global Shift/Scale** values should be set to `0`. If the global shift/scale is significantly different from zero, the point cloud will not appear in the Unity scene.
+Use the `Edit global shift and scale` tool to adjust the **X**, **Y** and **Z** shift/scale values to `0`.
+
 Point Clouds as Voxels
 ----------------------
 
@@ -73,3 +83,4 @@ Currently, the save data includes:
 - The loaded heightmap
 
 [BIM]: https://extensions.blender.org/add-ons/bonsai/?utm_source=blender-4.4.3
+[CloudCompare]: https://cloudcompare.org/index.html 

@@ -34,10 +34,12 @@ public class BlueprintManager : MonoBehaviour
         }
 
         string[] pngFiles = Directory.GetFiles(pictureFolder, "*.png");
+        string[] PNGFiles = Directory.GetFiles(pictureFolder, "*.PNG");
         string[] jpgFiles = Directory.GetFiles(pictureFolder, "*.jpg");
         string[] jpegFiles = Directory.GetFiles(pictureFolder, "*.jpeg");
 
         string[] allImages = pngFiles
+            .Concat(PNGFiles)
             .Concat(jpgFiles)
             .Concat(jpegFiles)
             .ToArray();
