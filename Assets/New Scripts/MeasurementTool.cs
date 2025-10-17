@@ -58,7 +58,7 @@ public class MeasurementTool : MonoBehaviour
             measurePanel.SetActive(toolActive); // use toolActive directly
         }
 
-        // Poista teleporttaaminen käytöstä kun mittaustyökalu on aktivoituna.
+        // Disable teleportation when measure tool is active.
         if (TeleportUser != null)
         {
             TeleportUser.enabled = !toolActive;

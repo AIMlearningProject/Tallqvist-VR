@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
 
-//K‰‰nt‰‰ prefabeja katsomalla n‰ykvi‰ info tekstej‰ pelaajaa kohti
+// Rotates canvas objects above prefabs towards the player.
 
 public class LookAtPlayer : MonoBehaviour
 {

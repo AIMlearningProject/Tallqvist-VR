@@ -3,12 +3,12 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-// Terrainin, "pelaaja" datan ja prefab datan tallentaminen ohjelman suorittamisen aikana json muodossa
+// Save data as json format: heightmap, player position, spawned prefabs.
 public class SaveSystem : MonoBehaviour
 {
-    private string saveDirectory; // Tallennuskansio
+    private string saveDirectory;
 
-    // Tarkastetaan kansion olemassaolo
+    // Create directory for save files.
     void Awake()
     {
         saveDirectory = Path.Combine(Application.persistentDataPath, "SaveFiles");
@@ -18,7 +18,6 @@ public class SaveSystem : MonoBehaviour
         }
     }
 
-    // Tallenna nimell‰
     public void SaveWithName(SaveData data, string saveName)
     {
         if (string.IsNullOrEmpty(saveName))
@@ -32,7 +31,6 @@ public class SaveSystem : MonoBehaviour
         Debug.Log("Game saved to " + filePath);
     }
 
-    // Lataa nimell‰
     public SaveData LoadWithName(string saveName)
     {
         if (string.IsNullOrEmpty(saveName))
@@ -57,7 +55,6 @@ public class SaveSystem : MonoBehaviour
         }
     }
 
-    //Haetaan kaikki tallennukset --> voidaan esitt‰‰ sek‰ hallita
     public string[] GetAllSaveFiles()
     {
         if (!Directory.Exists(saveDirectory))
@@ -90,8 +87,7 @@ public class SaveSystem : MonoBehaviour
         }
     }
 
-    // M‰‰ritet‰‰n haluttu tallennus data:
-    // Prefabeille
+    // Set data for saving prefabs.
     [System.Serializable]
     public class PrefabObjectData
     {
@@ -100,7 +96,7 @@ public class SaveSystem : MonoBehaviour
         public Quaternion rotation;
     }
 
-    // Varsinainen tallennus data
+    // Set data for saving.
     [System.Serializable]
     public class SaveData
     {

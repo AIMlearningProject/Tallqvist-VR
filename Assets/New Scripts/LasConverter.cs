@@ -6,9 +6,8 @@ using System;
 using TMPro;
 using System.Linq;
 
-// Ajaa las2heightmap.exe ohjelman streaming assets kansiosta. Tehty c++ scriptistä joka muutta las. tiedostoja png "heightmap" muotoon.
-// "Lasfiles" kansiossa oleva las tidosto muutetaan heightmapiksi "generated_heightmpa.png" ja sijoitetaan "Heightmaps" kansioon.
-// Tiedostopolku: "/AppData/LocalLow/DefaultCopmany/Tallqvist Tyomaa VR/Lasfiles"
+// Run las2heighgtmap.exe from streaming assets. It is a c++ script for converting .las files to grayscale .png "heightmaps".
+// Filepath: "/AppData/LocalLow/DefaultCopmany/Tallqvist Tyomaa VR/Lasfiles"
 
 public class LasConverter : MonoBehaviour
 {
@@ -101,16 +100,14 @@ public class LasConverter : MonoBehaviour
         }
     }
 
-    // Täytä lista .ls tiedostoilla (+ poisto mahdollisuus)
+    // Populate list with .las files.
     public void PopulateLasList()
     {
-        // Tyhjennä lista
         foreach (Transform child in contentParent)
         {
             Destroy(child.gameObject);
         }
 
-        // Hae kaikki tallennukset aikaleimalla
         string lasFolder = Path.Combine(Application.persistentDataPath, lasDirectoryName);
 
         if (!Directory.Exists(lasFolder))
@@ -127,7 +124,7 @@ public class LasConverter : MonoBehaviour
         {
             string fileName = Path.GetFileName(fullPath);
 
-            //Muunto nappi
+            // Button for converting the file.
             GameObject buttonGO = Instantiate(buttonPrefab, contentParent);
             buttonGO.GetComponentInChildren<TMP_Text>().text = fileName;
 

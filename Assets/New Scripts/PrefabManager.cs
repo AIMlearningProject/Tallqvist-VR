@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-// Prefabin vaihtaminen, sekä prefabin esittäminen UI:ssa.
+// Switch prefabs and show selected prefab on UI.
+
 public class PrefabManager : MonoBehaviour
 {
     [SerializeField] private InputActionProperty rightJoystickClick;    // Primary2DAxisClick

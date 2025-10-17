@@ -11,6 +11,31 @@ Files must be placed in the "A User Folder" located inside the project’s Asset
 Files must be located in a local user folder specific to the tool being used.
 `Users/User/AppData/LocalLow/DefaultCompany/Tallqvist Tyomaa VR/PlyFiles`
 
+Installing the Demo
+-------------------
+The demo build of the application `PointCloudVR.apk` can be installed from a PC to the Quest 2 headset using the [SideQuest] application.
+
+Controls
+--------
+
+**Left Controller**
+
+- **Stick:** Move
+- **Grip(held):** Show teleport crosshair
+- **Trigger:** Teleport
+- **Y:** Toggle Menu
+- **X:** Toggle measurement tool
+- **Trigger(measure):** Place a measure point
+
+**Right Controller**
+
+- **Stick:** Switch object
+- **Press Stick:** Open object menu
+- **Trigger:** Use menu buttons
+- **Grip:** Place a preview object
+- **A:** Finalize object placement **(2X)**
+- **B:** Remove object
+
 Point Clouds as Quads
 ---------------------
 
@@ -84,3 +109,4 @@ Currently, the save data includes:
 
 [BIM]: https://extensions.blender.org/add-ons/bonsai/?utm_source=blender-4.4.3
 [CloudCompare]: https://cloudcompare.org/index.html 
+[SideQuest]: https://sidequestvr.com/setup-howto

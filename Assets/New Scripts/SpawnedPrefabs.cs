@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Lista ohjelman suorittamisen aikana spawnatuista prefabeista tallentamista varten
+// List of prefabs spawned during runtime, used for saving.
 public class SpawnedPrefabs : MonoBehaviour
 {
     public static SpawnedPrefabs Instance;

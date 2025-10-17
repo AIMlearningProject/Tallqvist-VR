@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.IO;
 
-//Aseta heighmap.png terrainin heightmapiksi
+// Set heightmap.png as the heightmap of the terrain in the scene.
 
 public class ImportHeightMap : MonoBehaviour
 {
@@ -23,16 +23,14 @@ public class ImportHeightMap : MonoBehaviour
         PopulateHeightmapList();
     }
 
-    // Täyttä menun heightmap listan , ja asettaa nappeihin oikeat funktiot
+    // Populates the heightmap list with .png files.
     public void PopulateHeightmapList()
     {
-        // Listan putsaus
         foreach (Transform child in contentParent)
         {
             Destroy(child.gameObject);
         }
 
-        // Hae kaikki .png tiedostot kansiosta
         string[] files = Directory.GetFiles(heightmapFolder, "*.png");
 
         foreach (string filePath in files)
@@ -60,7 +58,7 @@ public class ImportHeightMap : MonoBehaviour
     {
         byte[] imageBytes = File.ReadAllBytes(filePath);
         Texture2D tex = new Texture2D(2, 2);
-        tex.LoadImage(imageBytes); // Tekstuurin koon automaattinen sovittaminen
+        tex.LoadImage(imageBytes); // Automatic texture fitting.
         return tex;
     }
 
@@ -76,7 +74,7 @@ public class ImportHeightMap : MonoBehaviour
             for (int x = 0; x < width; x++)
             {
                 Color pixel = heightmap.GetPixel(x, y);
-                heights[y, x] = pixel.grayscale; // tai .r
+                heights[y, x] = pixel.grayscale;
             }
         }
 
@@ -86,7 +84,7 @@ public class ImportHeightMap : MonoBehaviour
         RaisePlayerAboveTerrain();
     }
 
-    //Tee tasainen height map
+    // Create a flat heightmap to reset the terrain.
     public void ResetTerrain(Terrain terrain)
     {
         TerrainData terrainData = terrain.terrainData;
@@ -97,7 +95,7 @@ public class ImportHeightMap : MonoBehaviour
         RaisePlayerAboveTerrain();
     }
 
-    // Nosta käyttäjä terrainin yläpuolelle. Estää käyttäjää tippumasta terrainin läpi.
+    // Raise the player above the terrain. Prevents player falling through the terrain.
     void RaisePlayerAboveTerrain()
     {
         Vector3 playerPosition = player.transform.position;

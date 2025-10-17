@@ -17,6 +17,16 @@ public class BlueprintManager : MonoBehaviour
         PopulateBlueprintList();
     }
 
+    // Create the directory for blueprints.
+    void Awake()
+    {
+        blueprintDirectoryName = Path.Combine(Application.persistentDataPath, "Blueprints");
+        if (!Directory.Exists(blueprintDirectoryName))
+        {
+            Directory.CreateDirectory(blueprintDirectoryName);
+        }
+    }
+
     public void PopulateBlueprintList()
     {
         // Clear existing buttons.

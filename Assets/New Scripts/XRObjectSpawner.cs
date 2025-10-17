@@ -6,11 +6,11 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 public class XRObjectSpawner : MonoBehaviour
 {
-    public XRRayInteractor xrRayInteractor;  // Reference to your existing XR Ray Interactor
-    public InputActionProperty joystickInput; // RightJoystick Swap prefab
-    public InputActionProperty aButton;       // AButton Spawn
-    public InputActionProperty bButton;       // BButton Delete
-    public InputActionProperty rotateInput; // RightJoystick Rotate prefab when grip is pressed
+    public XRRayInteractor xrRayInteractor;       // Reference to your existing XR Ray Interactor
+    public InputActionProperty joystickInput;     // RightJoystick Swap prefab
+    public InputActionProperty aButton;           // AButton Spawn
+    public InputActionProperty bButton;           // BButton Delete
+    public InputActionProperty rotateInput;       // RightJoystick Rotate prefab
     public InputActionProperty rotateModeButton;  // Grip button
 
     public PrefabManager prefabManager;

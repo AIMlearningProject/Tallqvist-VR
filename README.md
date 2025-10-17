@@ -1,6 +1,8 @@
 Tallqwist-VR
 ============
 
+![Video of a demo application](/Videos/DemoVideo.mp4)
+
 This project is developed for a client with the goal of creating a **VR application in Unity** that allows users to edit, save, and load environments internally, enabling new employees to **explore construction sites remotely**.
 
 The project includes different approaches for **point cloud visualization for VR** including renderable **quads**, **voxels**, and **heightmaps**.
@@ -8,7 +10,8 @@ The project includes different approaches for **point cloud visualization for VR
 System Requirements
 -------------------
 
-**Unity Version:** Unity 6 (6000.0.42f1)
+**Unity Version:** Unity 6.2 (6000.2.6f2)  <br />
+*Most development prior to the security patch was done using Unity 6 (6000.0.42f1).*
 
 All development and testing were conducted using Meta Quest 2 VR headset connected to PC via Meta Quest Link.
 

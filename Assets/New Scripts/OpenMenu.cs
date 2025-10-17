@@ -1,9 +1,7 @@
 using UnityEngine;
 using UnityEngine.XR;
 
-// Asettaa MenuPanelin aktiiviseksi Y nappia painamalla
-// Y nappi myös sulkee kaikki menut
-// Ala menun avaaminen sulkee toiset alamenut
+// Toggle all menu panels with Y button. Opening a submenu closes other submenus.
 
 public class OpenMenu : MonoBehaviour
 {
@@ -72,7 +70,6 @@ public class OpenMenu : MonoBehaviour
         }
     }
 
-    // Funktio "Lataa scene napille", lisätään nappin on click eventtiin kutsuttavaksi.
     public void OpenLoadMenu()
     {
         loadPanel.SetActive(true);

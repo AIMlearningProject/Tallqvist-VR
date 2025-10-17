@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-// T‰ytt‰‰ Lataa listan tallennetuilla tiedostoilla
+// Populates a "load list" with save data.
 
 public class SaveList : MonoBehaviour
 {
@@ -19,18 +19,16 @@ public class SaveList : MonoBehaviour
 
     public void PopulateSaveList()
     {
-        // Tyhjenn‰ lista
         foreach (Transform child in contentParent)
         {
             Destroy(child.gameObject);
         }
 
-        // Hae kaikki tallennukset aikaleimalla
         string[] saves = saveSystem.GetAllSaveFiles();
 
         foreach (string timestamp in saves)
         {
-            //Lataus nappi
+            // Button for loading a save.
             GameObject buttonGO = Instantiate(buttonPrefab, contentParent);
             buttonGO.GetComponentInChildren<TMP_Text>().text = timestamp;
 
@@ -40,7 +38,7 @@ public class SaveList : MonoBehaviour
                 userController.LoadPlayer(ts);
             });
 
-            //Poisto nappi
+            // Button for deleting a save file.
             GameObject deleteButton = buttonGO.transform.Find("DeleteBtn").gameObject;
             deleteButton.GetComponent<Button>().onClick.AddListener(() =>
             {
