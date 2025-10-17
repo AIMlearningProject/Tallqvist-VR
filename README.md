@@ -55,4 +55,4 @@ This project makes use of publicly available point cloud data and IFC models, wh
 [CC BY 4.0]: https://creativecommons.org/licenses/by/4.0/
 [MIT license]: .//MIT_LICENSE.txt
 [here]: .//INSTRUCTIONS.md
-[Longer mp4 version]: .//DemoVideo.mp4
+[Longer mp4 version]: /Videos/DemoVideo.mp4
