@@ -1,7 +1,11 @@
 Tallqwist-VR
 ============
 
-![Video of a demo application](/Videos/DemoVideo.mp4)
+https://github.com/user-attachments/assets/ed334de1-e047-45cd-afe3-39a2dc5d95dd
+
+
+
+[Longer mp4 version]
 
 This project is developed for a client with the goal of creating a **VR application in Unity** that allows users to edit, save, and load environments internally, enabling new employees to **explore construction sites remotely**.
 
@@ -51,3 +55,4 @@ This project makes use of publicly available point cloud data and IFC models, wh
 [CC BY 4.0]: https://creativecommons.org/licenses/by/4.0/
 [MIT license]: .//MIT_LICENSE.txt
 [here]: .//INSTRUCTIONS.md
+[Longer mp4 version]: .//DemoVideo.mp4
